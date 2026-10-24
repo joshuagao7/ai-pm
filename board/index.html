@@ -1,0 +1,1959 @@
+<title>AI PM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF; --grid:rgba(0,0,0,.045); --panel:#FFFFFF;
+    --ink:#0A0A0C; --muted:rgba(10,10,12,.45);
+    --line:rgba(0,0,0,.12); --line-strong:rgba(0,0,0,.28);
+    --accent:#C45C26; --accent-ink:#FFFFFF; --accent-soft:rgba(196,92,38,.09);
+    --drop:rgba(196,92,38,.14);
+    --prime:#0A0A0C; --prime-ink:#FFFFFF;
+    --edge:rgba(10,10,12,.30); --edge-faded:rgba(10,10,12,.08);
+    --ax1:#B85C8A; --ax2:#5B8DBE; --ax3:#7A8F3C; --ax4:#A2653C; --ax5:#4E9E96; --ax6:#8E5AA8;
+    --ax7:#C4523F; --ax8:#6A5FB5; --ax9:#A87E24; --ax10:#3E8A62;
+    --st-basic:#B4485C; --st-perf:#0E7490; --st-del:#C08A1F; --st-ind:#77808B; --st-rnd:#3D66C4;
+    --st-basic-soft:rgba(180,72,92,.07); --st-perf-soft:rgba(14,116,144,.06);
+    --st-del-soft:rgba(192,138,31,.08); --st-ind-soft:rgba(119,128,139,.09); --st-rnd-soft:rgba(61,102,196,.07);
+    --o-para:#7C3AED; --o-ai:#15803D; --o-ai-soft:rgba(21,128,61,.08);
+    --shadow:0 1px 2px rgba(0,0,0,.05);
+    --f-head:'Aldrich','Avenir Next Condensed',system-ui,sans-serif;
+    --f-mono:'Space Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#1E1E24; --grid:rgba(255,255,255,.05); --panel:#26262E;
+      --ink:#ECECF1; --muted:rgba(236,236,241,.48);
+      --line:rgba(255,255,255,.14); --line-strong:rgba(255,255,255,.32);
+      --accent:#E0703A; --accent-ink:#16161A; --accent-soft:rgba(224,112,58,.14);
+      --drop:rgba(224,112,58,.20);
+      --prime:#ECECF1; --prime-ink:#16161A;
+      --edge:rgba(236,236,241,.32); --edge-faded:rgba(236,236,241,.08);
+      --ax1:#D687AC; --ax2:#83AFD6; --ax3:#A3B86A; --ax4:#C98F66; --ax5:#7CC2BB; --ax6:#B287CC;
+      --ax7:#E0705C; --ax8:#9A8FE0; --ax9:#CFA653; --ax10:#63B389;
+      --st-basic:#D06A7D; --st-perf:#2FAECB; --st-del:#D6A245; --st-ind:#8D97A3; --st-rnd:#84A3E6;
+      --st-basic-soft:rgba(208,106,125,.13); --st-perf-soft:rgba(47,174,203,.11);
+      --st-del-soft:rgba(214,162,69,.12); --st-ind-soft:rgba(141,151,163,.12); --st-rnd-soft:rgba(132,163,230,.13);
+      --o-para:#B695F0; --o-ai:#5FC98A; --o-ai-soft:rgba(95,201,138,.12);
+      --shadow:0 1px 3px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#FFFFFF; --grid:rgba(0,0,0,.045); --panel:#FFFFFF;
+    --ink:#0A0A0C; --muted:rgba(10,10,12,.45);
+    --line:rgba(0,0,0,.12); --line-strong:rgba(0,0,0,.28);
+    --accent:#C45C26; --accent-ink:#FFFFFF; --accent-soft:rgba(196,92,38,.09);
+    --drop:rgba(196,92,38,.14);
+    --prime:#0A0A0C; --prime-ink:#FFFFFF;
+    --edge:rgba(10,10,12,.30); --edge-faded:rgba(10,10,12,.08);
+    --ax1:#B85C8A; --ax2:#5B8DBE; --ax3:#7A8F3C; --ax4:#A2653C; --ax5:#4E9E96; --ax6:#8E5AA8;
+    --ax7:#C4523F; --ax8:#6A5FB5; --ax9:#A87E24; --ax10:#3E8A62;
+    --st-basic:#B4485C; --st-perf:#0E7490; --st-del:#C08A1F; --st-ind:#77808B; --st-rnd:#3D66C4;
+    --st-basic-soft:rgba(180,72,92,.07); --st-perf-soft:rgba(14,116,144,.06);
+    --st-del-soft:rgba(192,138,31,.08); --st-ind-soft:rgba(119,128,139,.09); --st-rnd-soft:rgba(61,102,196,.07);
+    --o-para:#7C3AED; --o-ai:#15803D; --o-ai-soft:rgba(21,128,61,.08);
+    --shadow:0 1px 2px rgba(0,0,0,.05);
+  }
+  :root[data-theme="dark"]{
+    --bg:#1E1E24; --grid:rgba(255,255,255,.05); --panel:#26262E;
+    --ink:#ECECF1; --muted:rgba(236,236,241,.48);
+    --line:rgba(255,255,255,.14); --line-strong:rgba(255,255,255,.32);
+    --accent:#E0703A; --accent-ink:#16161A; --accent-soft:rgba(224,112,58,.14);
+    --drop:rgba(224,112,58,.20);
+    --prime:#ECECF1; --prime-ink:#16161A;
+    --edge:rgba(236,236,241,.32); --edge-faded:rgba(236,236,241,.08);
+    --ax1:#D687AC; --ax2:#83AFD6; --ax3:#A3B86A; --ax4:#C98F66; --ax5:#7CC2BB; --ax6:#B287CC;
+    --ax7:#E0705C; --ax8:#9A8FE0; --ax9:#CFA653; --ax10:#63B389;
+    --st-basic:#D06A7D; --st-perf:#2FAECB; --st-del:#D6A245; --st-ind:#8D97A3; --st-rnd:#84A3E6;
+    --st-basic-soft:rgba(208,106,125,.13); --st-perf-soft:rgba(47,174,203,.11);
+    --st-del-soft:rgba(214,162,69,.12); --st-ind-soft:rgba(141,151,163,.12); --st-rnd-soft:rgba(132,163,230,.13);
+    --o-para:#B695F0; --o-ai:#5FC98A; --o-ai-soft:rgba(95,201,138,.12);
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); overflow:hidden;
+    font:12px/1.5 var(--f-mono);
+    display:flex; flex-direction:column;
+  }
+  button{font:inherit; color:inherit; background:none; border:none; cursor:pointer; padding:0}
+  button:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:6px}
+  .btn:disabled{opacity:.35; pointer-events:none}
+
+  header{
+    flex:0 0 auto; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    padding:10px 16px; border-bottom:1px solid var(--line); background:var(--bg); z-index:20;
+  }
+  .brand h1{
+    margin:0; font:15px/1.1 var(--f-head); letter-spacing:.06em; text-transform:uppercase;
+  }
+  .brand .sub{font-size:10px; color:var(--muted); font-variant-numeric:tabular-nums; letter-spacing:.02em}
+  .chips{display:flex; gap:4px; flex-wrap:wrap}
+  .chip{
+    display:flex; align-items:center; gap:5px; padding:3px 9px; border-radius:999px;
+    border:1px solid var(--line); font-size:10px; letter-spacing:.04em; background:var(--panel);
+  }
+  .chip .dot{width:7px; height:7px; border-radius:50%}
+  .chip .n{color:var(--muted); font-size:10px; font-variant-numeric:tabular-nums}
+  .chip.off{opacity:.35}
+  .chip:hover{border-color:var(--line-strong)}
+  .spacer{flex:1}
+  .search{
+    padding:5px 12px; border-radius:9px; border:1px solid var(--line);
+    background:var(--bg); color:var(--ink); font:inherit; font-size:11px; width:150px;
+  }
+  .search::placeholder{color:var(--muted)}
+  .btn{
+    padding:5px 14px; border-radius:9px; border:1px solid var(--line-strong);
+    font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; background:var(--panel);
+  }
+  .btn:hover{border-color:var(--accent); color:var(--accent)}
+  .btn.primary{background:var(--prime); color:var(--prime-ink); border-color:var(--prime)}
+  .btn.primary:hover{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+  .btn.exec{background:#C42B2B; border-color:#C42B2B; color:#fff}
+  .btn.exec:hover{background:#A32020; border-color:#A32020; color:#fff}
+  #recpill{
+    position:fixed; top:64px; left:50%; transform:translateX(-50%); z-index:60;
+    background:#C42B2B; color:#fff; font:700 11px/1 var(--f-mono); letter-spacing:.06em;
+    padding:9px 16px; border-radius:999px; display:none; align-items:center; gap:9px;
+    max-width:min(70vw,560px);
+  }
+  #recpill.on{display:flex}
+  #recpill .rdot{width:8px; height:8px; border-radius:50%; background:#fff; flex:0 0 auto; animation:recblink 1s infinite}
+  #recpill #rectext{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:400}
+  @keyframes recblink{50%{opacity:.2}}
+  @media (prefers-reduced-motion: reduce){ #recpill .rdot{animation:none} }
+  #sprintmon{
+    position:fixed; right:14px; bottom:14px; z-index:30; width:360px; max-height:45vh; overflow-y:auto;
+    background:var(--panel); border:1px solid var(--line-strong); border-radius:12px;
+    box-shadow:0 8px 30px rgba(0,0,0,.25); padding:10px 12px; display:none; flex-direction:column; gap:7px;
+  }
+  #sprintmon.on{display:flex}
+  #sprintmon .smh{font:12px/1.2 var(--f-head); letter-spacing:.09em; text-transform:uppercase; display:flex; align-items:center; gap:8px}
+  #sprintmon .smh .st{margin-left:auto; font:400 9.5px var(--f-mono); color:var(--muted); text-transform:none; letter-spacing:.02em}
+  .smrow{display:flex; flex-direction:column; gap:2px; border-top:1px solid var(--line); padding-top:6px}
+  .smrow .t{display:flex; align-items:center; gap:7px; font-size:11px; font-weight:700}
+  .smrow .t .ago{margin-left:auto; font-size:9px; color:var(--muted); font-weight:400; font-variant-numeric:tabular-nums}
+  .smrow .dot{width:8px; height:8px; border-radius:50%; background:var(--st-del); flex:0 0 auto; animation:recblink 1.2s infinite}
+  .smrow.done .dot{background:var(--o-ai); animation:none}
+  .smrow.stale .dot{background:var(--st-basic); animation:none}
+  .smrow .last{font-size:10px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding-left:15px}
+  .smrow.done{cursor:pointer}
+  .smrow.done:hover .t{color:var(--o-ai)}
+  @media (prefers-reduced-motion: reduce){ .smrow .dot{animation:none} }
+  #saveState{font-size:10px; color:var(--muted); min-width:64px; text-align:right; font-variant-numeric:tabular-nums; letter-spacing:.04em}
+  #saveState.err{color:var(--st-basic)}
+  .selhint{font-size:10px; color:var(--muted); letter-spacing:.02em}
+  .selhint b{color:var(--accent); font-weight:700}
+
+  /* canvas */
+  #viewport{
+    flex:1 1 auto; overflow:hidden; position:relative; min-height:0; cursor:grab; touch-action:none;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size:64px 64px;
+  }
+  #viewport.panning{cursor:grabbing}
+  #world{position:absolute; top:0; left:0; transform-origin:0 0}
+  .lanehead{
+    position:absolute; display:flex; align-items:center; gap:8px; height:30px; z-index:3;
+  }
+  .lanehead .t{font:12px/1.1 var(--f-head); letter-spacing:.1em; text-transform:uppercase}
+  .lanehead .n{font-size:10px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .lanehead.center .t{color:var(--accent)}
+  .lanehead .add{
+    font-size:13px; color:var(--muted); border:1px dashed var(--line-strong);
+    border-radius:7px; padding:0 8px; line-height:20px; margin-left:auto;
+  }
+  .lanehead .add:hover{color:var(--accent); border-color:var(--accent); background:var(--accent-soft)}
+  .lanebg{position:absolute; border-radius:16px; pointer-events:none; z-index:0}
+  .lanebg.hot{outline:2px dashed var(--accent); outline-offset:-2px; background:var(--drop)}
+  .groupbox{
+    position:absolute; z-index:1; pointer-events:none;
+    background:var(--accent-soft); border:1px dashed var(--line-strong); border-radius:14px;
+  }
+  .groupbox .gl{
+    position:absolute; top:4px; left:12px; right:12px; font-size:9px; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+
+  #edgesvg{position:absolute; inset:0; z-index:1; pointer-events:none; transition:opacity .22s ease}
+  #edgesvg.moving{opacity:.12}
+  .groupbox{animation:gbfade .5s ease}
+  @keyframes gbfade{from{opacity:0}}
+  @media (prefers-reduced-motion: reduce){
+    #edgesvg{transition:none}
+    .groupbox{animation:none}
+  }
+  #edgesvg path.vis{fill:none; stroke:var(--edge); stroke-width:1.4}
+  #edgesvg g.sel path.vis{stroke:var(--accent); stroke-width:2.6}
+  #edgesvg g.hl path.vis{stroke:var(--accent); stroke-width:2.2}
+  #edgesvg g.faded path.vis{stroke:var(--edge-faded)}
+  #edgesvg path.hit{fill:none; stroke:transparent; stroke-width:14; pointer-events:stroke; cursor:pointer}
+  #edgesvg path.temp{fill:none; stroke:var(--accent); stroke-width:2; stroke-dasharray:6 5}
+  #edgesvg g.sugg path.vis{stroke:var(--o-ai); stroke-width:1.8; stroke-dasharray:5 5}
+  #edgesvg g.sugg:hover path.vis{stroke-width:2.6}
+  #edgesvg g.sugg.armed path.vis{stroke:var(--edge); stroke-width:2.4; stroke-dasharray:none}
+
+  .card{
+    position:absolute; width:300px; background:var(--panel); border:1px solid var(--line);
+    border-radius:12px; padding:7px 10px 7px 12px; box-shadow:var(--shadow); z-index:2;
+    -webkit-user-select:none; user-select:none; touch-action:none;
+  }
+  .card::before{
+    content:""; position:absolute; left:0; top:9px; bottom:9px; width:3px; border-radius:3px;
+    background:var(--stripe, var(--a-color,var(--line-strong)));
+  }
+  .card .meta{display:flex; align-items:center; gap:6px; margin-bottom:2px; min-height:15px}
+  .card .cid{font:700 9.5px/1 var(--f-mono); color:var(--a-color,var(--muted)); letter-spacing:.05em}
+  .card .aname{font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--a-color,var(--muted))}
+  .card .kind{font-size:8px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line-strong); border-radius:5px; padding:0 4px}
+  .card .inn{font-size:9.5px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .card .title{font-size:11px; line-height:1.5; border-radius:4px; padding:1px 2px; outline:none; cursor:default}
+  .card.editable .title{cursor:text}
+  .card .title[contenteditable="true"]{background:var(--accent-soft); cursor:text}
+  .card .title.o-para, .card .notes.o-para{color:var(--o-para)}
+  .card .title.o-ai, .card .notes.o-ai{color:var(--o-ai)}
+  .obtn{width:9px; height:9px; border-radius:50%; border:1px solid var(--line-strong); flex:0 0 auto}
+  .obtn.o-raw{background:var(--ink)}
+  .obtn.o-para{background:var(--o-para); border-color:var(--o-para)}
+  .obtn.o-ai{background:var(--o-ai); border-color:var(--o-ai)}
+  .legend .chip{cursor:default; border-style:dashed}
+  .card .notes{
+    width:100%; margin-top:6px; font:10.5px/1.5 var(--f-mono); color:var(--ink);
+    background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:6px 8px; resize:vertical; min-height:48px;
+  }
+  .fu{margin-top:6px}
+  .fulabel{display:flex; align-items:center; font-size:8.5px; font-weight:700; letter-spacing:.09em; color:var(--accent); margin-bottom:2px}
+  .fux{margin-left:auto; font-size:9px; color:var(--muted); padding:1px 5px; border-radius:5px}
+  .fux:hover{color:var(--st-basic)}
+  .card .notes.futext{border-left:3px solid var(--accent); margin-top:0; min-height:38px}
+  .card .foot{display:flex; gap:8px; margin-top:4px}
+  .card .foot button{font-size:9.5px; color:var(--muted); letter-spacing:.04em}
+  .card .foot button:hover{color:var(--accent)}
+  .card .port{
+    position:absolute; right:-8px; top:50%; transform:translateY(-50%);
+    width:14px; height:14px; border-radius:50%; background:var(--panel);
+    border:2px solid var(--line-strong); cursor:crosshair; z-index:3;
+  }
+  .card .port:hover{border-color:var(--accent); background:var(--accent-soft)}
+  .card .del{
+    position:absolute; top:-7px; right:-7px; width:18px; height:18px; border-radius:50%;
+    background:var(--panel); border:1px solid var(--line-strong); font-size:9px; color:var(--muted);
+    display:none; align-items:center; justify-content:center; z-index:3;
+  }
+  .card:hover .del{display:flex}
+  .card .del:hover{color:var(--st-basic); border-color:var(--st-basic)}
+  .card.snaptgt{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft), 0 0 14px var(--accent-soft), var(--shadow); transform:scale(1.015)}
+  .card.selected{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-soft), var(--shadow)}
+  .card.selected .meta::after{content:"✓"; margin-left:auto; font-size:11px; font-weight:700; color:var(--accent)}
+  .card.faded{opacity:.18}
+  .card.dimmed{opacity:.14}
+  .card.hidden{display:none}
+  .card.linked .cid::before{content:"✓ "; color:var(--o-ai); font-weight:700}
+  .card.st-indiff{opacity:.55}
+  .rankb{font:700 10px/1 var(--f-mono); background:var(--accent); color:var(--accent-ink); border-radius:6px; padding:3px 6px; letter-spacing:.05em}
+  .rk{font-size:9px; color:var(--muted); padding:2px 4px; border-radius:5px; line-height:1}
+  .rk:hover{color:var(--accent); background:var(--accent-soft)}
+  .flagbtn{font-size:11px; color:var(--muted); padding:2px 5px; border-radius:5px; line-height:1}
+  .flagbtn:hover{color:var(--o-ai); background:var(--o-ai-soft)}
+  .flagbtn.on{color:#fff; background:var(--o-ai)}
+  .card.done{--stripe:var(--o-ai); background:var(--o-ai-soft); opacity:.75}
+  .card.done .title{text-decoration:line-through; text-decoration-color:var(--o-ai); text-decoration-thickness:1px}
+  .card.dragging{z-index:5; box-shadow:0 8px 28px rgba(0,0,0,.25)}
+  .card.st-basic{--stripe:var(--st-basic); background:var(--st-basic-soft)}
+  .card.st-perf{--stripe:var(--st-perf); background:var(--st-perf-soft)}
+  .card.st-delight{--stripe:var(--st-del); background:var(--st-del-soft)}
+  .card.st-indiff{--stripe:var(--st-ind); background:var(--st-ind-soft)}
+  .card.st-rnd{--stripe:var(--st-rnd); background:var(--st-rnd-soft)}
+
+  .stchip{
+    margin-left:auto; font-size:8.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    border-radius:999px; padding:1px 7px; color:#fff; line-height:14px;
+  }
+  .tagbar{
+    position:absolute; left:2px; right:2px; bottom:2px; height:30px; z-index:6;
+    display:none; gap:2px;
+  }
+  .card.seed:hover .tagbar{display:flex}
+  .tagbar button{
+    flex:1; border-radius:8px; font-size:9.5px; font-weight:700; letter-spacing:.05em;
+    text-transform:uppercase; color:#fff;
+  }
+  .tagbar button:hover{filter:brightness(1.12)}
+  .tagbar button.active{outline:2px solid var(--ink); outline-offset:-2px}
+
+  #edgedel{
+    position:absolute; z-index:6; width:20px; height:20px; border-radius:50%;
+    background:var(--panel); border:1px solid var(--st-basic); color:var(--st-basic);
+    font-size:10px; display:none; align-items:center; justify-content:center;
+  }
+  #edgedel.open{display:flex}
+
+  .overlay{position:fixed; inset:0; background:rgba(10,10,12,.5); display:none; align-items:center; justify-content:center; padding:24px; z-index:50}
+  .overlay.open{display:flex}
+  .modal{background:var(--panel); border:1px solid var(--line-strong); border-radius:14px; width:min(780px,100%); max-height:86vh; display:flex; flex-direction:column; box-shadow:0 12px 48px rgba(0,0,0,.35)}
+  .modal-head{display:flex; align-items:center; padding:13px 16px; border-bottom:1px solid var(--line)}
+  .modal-head .t{font:13px/1.2 var(--f-head); letter-spacing:.06em; text-transform:uppercase}
+  .modal-head .x{margin-left:auto; color:var(--muted); padding:4px 8px; border-radius:7px}
+  .modal-head .x:hover{background:var(--accent-soft); color:var(--accent)}
+  .modal textarea{flex:1; margin:14px 16px; min-height:340px; resize:vertical; font:11px/1.55 var(--f-mono); background:var(--bg); color:var(--ink); border:1px solid var(--line); border-radius:10px; padding:12px}
+  .modal-foot{display:flex; gap:10px; padding:0 16px 16px; justify-content:flex-end; align-items:center}
+  .modal-foot .note{margin-right:auto; font-size:11px; color:var(--muted)}
+
+  /* upload panel */
+  .upbody{display:flex; flex-direction:column; gap:10px; padding:14px 16px 16px; overflow-y:auto}
+  .upbody .row{display:flex; align-items:center; gap:8px; font-size:11px; letter-spacing:.04em; text-transform:uppercase}
+  .upbody .row input{flex:1; padding:6px 10px; border:1px solid var(--line); border-radius:9px; background:var(--bg); color:var(--ink); font:11px/1.4 var(--f-mono); text-transform:none; letter-spacing:0}
+  #upText{margin:0; min-height:130px}
+  .dropzone{border:1.5px dashed var(--line-strong); border-radius:12px; padding:13px; text-align:center; font-size:11px; color:var(--muted); cursor:pointer; line-height:1.6}
+  .dropzone:hover,.dropzone.hot{border-color:var(--accent); color:var(--accent); background:var(--accent-soft)}
+  .dropzone .d{font-size:10px}
+  .ptlist{max-height:240px; overflow-y:auto; border:1px solid var(--line); border-radius:10px; padding:8px; display:flex; flex-direction:column; gap:5px}
+  .ptlist label{display:flex; gap:8px; font-size:11px; align-items:flex-start; cursor:pointer}
+  .ptlist input{margin-top:2px; accent-color:var(--accent)}
+  .upfoot{display:flex; gap:10px; align-items:center; justify-content:flex-end}
+  .upfoot .note{margin-right:auto; font-size:11px; color:var(--muted)}
+  .inboxlist{font-size:10.5px; color:var(--muted); display:flex; flex-direction:column; gap:3px}
+  .inboxlist b{color:var(--ink); font-weight:700}
+
+  @media (prefers-reduced-motion: no-preference){
+    .card,.chip,.btn{transition:opacity .12s, border-color .12s, box-shadow .12s, background .12s}
+  }
+</style>
+
+<header>
+  <div class="brand">
+    <h1 id="title">AI PM</h1>
+    <div class="sub" id="tally"></div>
+  </div>
+  <div class="chips" id="authorChips"></div>
+  <div class="chips" id="statusChips"></div>
+  <div class="chips legend" id="originLegend" title="Text provenance">
+    <span class="chip"><span class="dot" style="background:var(--ink)"></span>Raw</span>
+    <span class="chip"><span class="dot" style="background:var(--o-para)"></span>Paraphrase</span>
+    <span class="chip"><span class="dot" style="background:var(--o-ai)"></span>AI</span>
+  </div>
+  <input class="search" id="search" type="search" placeholder="Filter…" aria-label="Filter cards">
+  <div class="spacer"></div>
+  <span class="selhint" id="selhint"></span>
+  <span id="saveState">Loading…</span>
+  <button class="btn" id="sortBtn" title="Re-sort all lanes: comments into tag bands, themes by connections — keyboard s">Sort (s)</button>
+  <button class="btn" id="clusterBtn" title="Group every lane by shared ties to the next column — keyboard c">Cluster (c)</button>
+  <button class="btn" id="undoBtn" disabled title="Undo (⌘Z) · redo (⇧⌘Z)">Undo</button>
+  <button class="btn" id="fitBtn" title="Zoom to fit the whole map · drag background to pan · pinch or ⌘-scroll to zoom">Fit</button>
+  <button class="btn" id="uploadBtn" title="Paste/type raw feedback, or upload a file — text splits into cards, audio goes to the inbox for Claude">Upload</button>
+  <button class="btn exec" id="execBtn" title="Hand every prompt to an implementation agent, each with its themes + raw comments as context">Execute Sprint</button>
+  <button class="btn primary" id="exportBtn">Export</button>
+</header>
+<div id="viewport"><div id="world">
+  <svg id="edgesvg"></svg>
+  <button id="edgedel" title="Delete connector">✕</button>
+</div></div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-label="Export">
+    <div class="modal-head">
+      <span class="t">BOARD.md — regenerated on every save; also on disk in the sprint folder</span>
+      <button class="x" id="modalClose" aria-label="Close">✕</button>
+    </div>
+    <textarea id="exportText" readonly></textarea>
+    <div class="modal-foot">
+      <span class="note" id="copyNote"></span>
+      <button class="btn primary" id="copyBtn">Copy to clipboard</button>
+    </div>
+  </div>
+</div>
+
+<div id="recpill"><span class="rdot"></span><span id="rectext">listening…</span></div>
+
+<div id="sprintmon">
+  <div class="smh">Sprint agents<span class="st" id="smstate"></span></div>
+  <div id="smrows"></div>
+</div>
+
+<div class="overlay" id="upOverlay">
+  <div class="modal" role="dialog" aria-label="Add raw feedback">
+    <div class="modal-head">
+      <span class="t">Add raw feedback</span>
+      <button class="x" id="upClose" aria-label="Close">✕</button>
+    </div>
+    <div class="upbody">
+      <div class="row">
+        <label for="upAuthor">Author</label>
+        <input id="upAuthor" list="authorList" placeholder="Who said this? e.g. Dana">
+        <datalist id="authorList"></datalist>
+      </div>
+      <textarea id="upText" placeholder="Paste or type raw feedback here — each line or bullet becomes a card…"></textarea>
+      <div class="dropzone" id="dropzone">…or drop a file here / click to choose<br>
+        <span class="d">text files split into points · audio &amp; other files go to the inbox for Claude to transcribe and extract</span>
+      </div>
+      <input type="file" id="upFile" hidden>
+      <div class="ptlist" id="ptList" hidden></div>
+      <div class="upfoot">
+        <span class="note" id="upNote"></span>
+        <button class="btn" id="toInboxBtn">Send to inbox for Claude</button>
+        <button class="btn primary" id="extractBtn">Split into points</button>
+      </div>
+      <div class="inboxlist" id="inboxList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+/* ---------------- constants ---------------- */
+const LANE_W = 300, GAPX = 120, GAPY = 12, LANE_X0 = 40;
+/* Author colors are assigned in first-appearance order from a 10-color palette. */
+const AUTHOR_COLORS = 10;
+function authorVar(name) {
+  const authors = [...new Set(board.cards.filter(isSeed).map((c) => c.author))].filter(Boolean);
+  return `var(--ax${(Math.max(0, authors.indexOf(name)) % AUTHOR_COLORS) + 1})`;
+}
+const STATUS = {
+  basic:   {label:'Basic',       css:'var(--st-basic)', key:'1', desc:'Expected — absence enrages'},
+  perf:    {label:'Performance', css:'var(--st-perf)',  key:'2', desc:'More is linearly better'},
+  delight: {label:'Delighter',   css:'var(--st-del)',   key:'3', desc:'Unexpected — differentiates'},
+  indiff:  {label:'Indifferent', css:'var(--st-ind)',   key:'4', desc:'Nobody would notice — skip candidate'},
+  rnd:     {label:'R&D',         css:'var(--st-rnd)',   key:'5', desc:'Worth doing — needs research & development, longer horizon'},
+};
+
+/* ---------------- state & sync ---------------- */
+let board = null;            // {sprint, stages, uid, cards, edges}
+let lastMtime = 0;
+let dirty = false, saveTimer = null, interacting = false;
+let sel = new Set();         // selected card ids
+let selEdge = null;          // selected edge id
+let authorFilter = new Set();
+const authorSeen = new Set();
+let statusFilter = new Set(['none', ...Object.keys(STATUS)]);
+let query = '';
+
+const $ = (id) => document.getElementById(id);
+const byId = (id) => board.cards.find((c) => c.id === id);
+const stageIdx = (sid) => board.stages.findIndex((s) => s.id === sid);
+const COLGAP = 18;
+let seedCols = 1; // sub-columns in the comments lane, computed each layout
+const laneW = (i) => (i === 0 ? seedCols * LANE_W + (seedCols - 1) * COLGAP : LANE_W);
+const laneX = (i) => (i === 0 ? LANE_X0 : LANE_X0 + laneW(0) + GAPX + (i - 1) * (LANE_W + GAPX));
+const worldW = () => laneX(board.stages.length - 1) + LANE_W + LANE_X0;
+const laneAtX = (x) => {
+  for (let i = 0; i < board.stages.length; i++) {
+    if (x >= laneX(i) - GAPX / 2 && x <= laneX(i) + laneW(i) + GAPX / 2) return i;
+  }
+  return -1;
+};
+const insideLane = (x) => {
+  const i = laneAtX(x);
+  return i >= 0 && x >= laneX(i) && x <= laneX(i) + laneW(i) ? i : -1;
+};
+const seedStage = () => board.stages[0].id;
+const isSeed = (c) => c.stage === seedStage();
+
+function sanitize() {
+  const legacy = { disagree: 'indiff' };
+  for (const c of board.cards) {
+    if (!c.status) continue;
+    if (legacy[c.status]) c.status = legacy[c.status];
+    else if (!STATUS[c.status]) delete c.status;
+  }
+}
+async function loadState() {
+  const r = await fetch('/api/state');
+  const j = await r.json();
+  board = j.data; lastMtime = j.mtimeMs;
+  sanitize();
+  document.title = `${board.sprint} — AI PM`;
+  $('title').textContent = `AI PM · ${board.sprint}`;
+  render(); fitView(); setSave('Saved');
+}
+function setSave(t, err) { const el = $('saveState'); el.textContent = t; el.classList.toggle('err', !!err); }
+
+/* ---------------- undo / redo ---------------- */
+const undoStack = [], redoStack = [];
+function snapshot() {
+  undoStack.push(JSON.stringify(board));
+  if (undoStack.length > 60) undoStack.shift();
+  redoStack.length = 0;
+  updateUndoBtn();
+}
+function restoreState(json) {
+  board = JSON.parse(json);
+  sel = new Set([...sel].filter((id) => byId(id)));
+  selEdge = null;
+  touch(); render(); updateUndoBtn();
+}
+function undo() {
+  if (!undoStack.length) return;
+  redoStack.push(JSON.stringify(board));
+  restoreState(undoStack.pop());
+}
+function redo() {
+  if (!redoStack.length) return;
+  undoStack.push(JSON.stringify(board));
+  restoreState(redoStack.pop());
+}
+function updateUndoBtn() { $('undoBtn').disabled = !undoStack.length; }
+$('undoBtn').addEventListener('click', undo);
+function touch() {
+  dirty = true; setSave('Editing…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 700);
+}
+async function saveNow() {
+  if (!dirty) return;
+  try {
+    const r = await fetch('/api/state', { method:'POST', body: JSON.stringify(board) });
+    const j = await r.json();
+    if (j.ok) { dirty = false; lastMtime = j.mtimeMs; setSave('Saved'); }
+    else setSave('Save failed', true);
+  } catch (e) { setSave('Server offline', true); }
+}
+setInterval(async () => {
+  if (dirty || interacting || !board) return;
+  try {
+    const j = await (await fetch('/api/mtime')).json();
+    if (j.mtimeMs > lastMtime + 1) {
+      const s = await (await fetch('/api/state')).json();
+      board = s.data; lastMtime = s.mtimeMs;
+      sanitize();
+      undoStack.length = 0; redoStack.length = 0; updateUndoBtn();
+      sel = new Set([...sel].filter((id) => byId(id)));
+      render(); setSave('Synced ↓');
+    }
+  } catch (e) {}
+}, 3000);
+window.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && dirty) {
+    fetch('/api/state', { method:'POST', body: JSON.stringify(board), keepalive:true });
+    dirty = false;
+  }
+});
+
+/* ---------------- canvas view: pan + zoom ---------------- */
+const view = { x: 24, y: 24, z: 0.9 };
+function applyView() {
+  $('world').style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.z})`;
+}
+function zoomAt(cx, cy, f) {
+  const r = $('viewport').getBoundingClientRect();
+  const z2 = Math.min(2.5, Math.max(0.12, view.z * f));
+  const k = z2 / view.z;
+  view.x = (cx - r.left) - k * ((cx - r.left) - view.x);
+  view.y = (cy - r.top) - k * ((cy - r.top) - view.y);
+  view.z = z2;
+  applyView();
+}
+function fitView() {
+  const vp = $('viewport').getBoundingClientRect();
+  const w = worldW();
+  const h = +$('edgesvg').getAttribute('height') || 900;
+  view.z = Math.min(1.15, Math.max(0.12, 0.94 * Math.min(vp.width / w, vp.height / h)));
+  view.x = (vp.width - w * view.z) / 2;
+  view.y = Math.max(12, (vp.height - h * view.z) / 2);
+  applyView();
+}
+{
+  const vp = $('viewport');
+  vp.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (e.ctrlKey || e.metaKey) zoomAt(e.clientX, e.clientY, Math.exp(-e.deltaY * 0.01));
+    else { view.x -= e.deltaX; view.y -= e.deltaY; applyView(); }
+  }, { passive: false });
+  vp.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.card, .lanehead, #edgedel, path, button, input, textarea')) return;
+    const sx = e.clientX, sy = e.clientY, ox = view.x, oy = view.y;
+    let moved = false;
+    vp.setPointerCapture(e.pointerId);
+    vp.classList.add('panning');
+    const mv = (e2) => {
+      const dx = e2.clientX - sx, dy = e2.clientY - sy;
+      if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+      view.x = ox + dx; view.y = oy + dy; applyView();
+    };
+    const up2 = () => {
+      vp.removeEventListener('pointermove', mv); vp.removeEventListener('pointerup', up2);
+      vp.classList.remove('panning');
+      if (!moved && (sel.size || selEdge)) clearSel();
+    };
+    vp.addEventListener('pointermove', mv);
+    vp.addEventListener('pointerup', up2);
+  });
+}
+
+/* ---------------- lane headers + drop rects (in-world) ---------------- */
+function renderLanes(M, maxH) {
+  const world = $('world');
+  world.querySelectorAll('.lanehead, .lanebg').forEach((n) => n.remove());
+  const top = M - maxH / 2;
+  board.stages.forEach((s, i) => {
+    const bg = document.createElement('div');
+    bg.className = 'lanebg'; bg.dataset.stage = s.id;
+    bg.style.left = (laneX(i) - 8) + 'px'; bg.style.width = (laneW(i) + 16) + 'px';
+    bg.style.top = (top - 44) + 'px'; bg.style.height = (maxH + 88) + 'px';
+    world.prepend(bg);
+    const h = document.createElement('div');
+    h.className = 'lanehead' + (s.center ? ' center' : '');
+    h.style.left = laneX(i) + 'px'; h.style.top = (top - 46) + 'px'; h.style.width = laneW(i) + 'px';
+    h.innerHTML = `<span class="t"></span><span class="n"></span>`;
+    h.querySelector('.t').textContent = s.title;
+    h.querySelector('.n').textContent = board.cards.filter((c) => c.stage === s.id).length;
+    if (i > 0) {
+      const add = document.createElement('button');
+      add.className = 'add'; add.textContent = '＋'; add.title = 'Add card to ' + s.title;
+      add.addEventListener('pointerdown', (e) => e.stopPropagation());
+      add.addEventListener('click', () => { snapshot(); const c = addCard(s.id, null); render(); startTitleEdit(c.id); });
+      h.appendChild(add);
+    }
+    world.appendChild(h);
+  });
+}
+
+/* ---------------- mutations ---------------- */
+function addCard(stage, y, title) {
+  const c = { id: 'n' + (board.uid++), stage, title: title || 'Untitled', notes: '', y };
+  board.cards.push(c); touch(); return c;
+}
+function delCard(id) {
+  snapshot();
+  board.cards = board.cards.filter((c) => c.id !== id);
+  board.edges = board.edges.filter((e) => e.from !== id && e.to !== id);
+  sel.delete(id); touch(); render();
+}
+function addEdge(from, to) {
+  if (from === to) return;
+  if (stageIdx(byId(from).stage) >= stageIdx(byId(to).stage)) return;
+  if (board.edges.some((e) => e.from === from && e.to === to)) return;
+  board.edges.push({ id: 'e' + (board.uid++), from, to }); touch();
+}
+function delEdge(id) { snapshot(); board.edges = board.edges.filter((e) => e.id !== id); if (selEdge === id) selEdge = null; touch(); render(); }
+function setStatus(ids, st) {
+  snapshot();
+  ids.forEach((id) => { const c = byId(id); if (c && isSeed(c)) { if (st) c.status = st; else delete c.status; } });
+  touch(); render();
+}
+
+/* ---------------- feature ranking (center lane) ---------------- */
+const centerStage = () => board.stages.find((s) => s.center);
+const centerCards = () => { const s = centerStage(); return s ? board.cards.filter((c) => c.stage === s.id) : []; };
+function normalizeRanks() {
+  const fs = centerCards();
+  fs.sort((a, b) => ((a.rank ?? 1e9) - (b.rank ?? 1e9)) || ((a.y ?? 0) - (b.y ?? 0)));
+  fs.forEach((c, i) => { if (c.rank !== i + 1) { c.rank = i + 1; dirty = true; } });
+}
+function bumpRank(id, d) {
+  normalizeRanks();
+  const fs = centerCards().sort((a, b) => a.rank - b.rank);
+  const i = fs.findIndex((c) => c.id === id), j = i + d;
+  if (i < 0 || j < 0 || j >= fs.length) return;
+  snapshot();
+  const t = fs[i].rank; fs[i].rank = fs[j].rank; fs[j].rank = t;
+  touch(); render();
+}
+function reRankFromY() {
+  const fs = centerCards().sort((a, b) => (a.y ?? 0) - (b.y ?? 0));
+  fs.forEach((c, i) => { c.rank = i + 1; });
+}
+
+/* ---------------- unified centered auto-layout ---------------- */
+let lockedOrder = null, lockedGapKeys = null, sortMode = 'sort', clusterGroups = null;
+let showDone = false;
+function doReorder(mode) { sortMode = mode || 'sort'; lockedOrder = null; lockedGapKeys = null; render(); }
+function laneOrders() {
+  const S = board.stages;
+  const cardsIn = (sid) => board.cards.filter((c) => c.stage === sid);
+  const orders = {}, idxIn = {};
+  const setOrder = (sid, arr) => { orders[sid] = arr; arr.forEach((c, i) => { idxIn[c.id] = i; }); };
+  const inCount = (c) => board.edges.filter((e) => e.to === c.id).length;
+  const upIdx = (c, sid) => {
+    const ups = board.edges.filter((e) => e.to === c.id).map((e) => byId(e.from))
+      .filter((u) => u && u.stage === sid && idxIn[u.id] != null);
+    return ups.length ? ups.reduce((s, u) => s + idxIn[u.id], 0) / ups.length : 1e6;
+  };
+  // themes: most-connected first
+  if (S[1] && !S[1].center) {
+    const th = cardsIn(S[1].id);
+    th.sort((a, b) => inCount(b) - inCount(a) || (a.y ?? 0) - (b.y ?? 0));
+    setOrder(S[1].id, th);
+  }
+  // features: by rank
+  const ctr = S.find((s) => s.center);
+  if (ctr) setOrder(ctr.id, cardsIn(ctr.id).sort((a, b) => (a.rank ?? 1e9) - (b.rank ?? 1e9)));
+  // remaining lanes left→right: by mean upstream order
+  for (let i = 2; i < S.length; i++) {
+    const prevSid = S[i - 1].id;
+    const cs = cardsIn(S[i].id);
+    cs.sort((a, b) => upIdx(a, prevSid) - upIdx(b, prevSid) || (a.y ?? 0) - (b.y ?? 0));
+    setOrder(S[i].id, cs);
+  }
+  // comments: untagged working pile on top, then tag bands basic → perf → delight → rnd → indiff;
+  // within a band, grouped by first link target in target order
+  const BAND = { basic: 1, perf: 2, delight: 3, rnd: 4, indiff: 5 };
+  const seedSid = S[0].id;
+  const cs = cardsIn(seedSid);
+  const meta = new Map();
+  for (const c of cs) {
+    const ts = board.edges.filter((e) => e.from === c.id).map((e) => byId(e.to)).filter(Boolean)
+      .sort((a, b) => (stageIdx(a.stage) - stageIdx(b.stage)) || ((idxIn[a.id] ?? 9e3) - (idxIn[b.id] ?? 9e3)));
+    const t = ts[0];
+    meta.set(c.id, {
+      b: BAND[c.status] || 0,
+      ti: t ? stageIdx(t.stage) * 1e4 + (idxIn[t.id] ?? 9e3) : 1e9,
+      g: t ? t.id : '',
+    });
+  }
+  cs.sort((a, b) => {
+    const A = meta.get(a.id), B = meta.get(b.id);
+    return A.b - B.b || A.ti - B.ti || (a.y ?? 0) - (b.y ?? 0);
+  });
+  setOrder(seedSid, cs);
+  const freshKey = (c) => { const m = meta.get(c.id); return m ? m.b + '|' + m.g : ''; };
+
+  // Cluster (c): re-group every lane by shared first tie to the next columns,
+  // processed right-to-left so groups follow their target's position
+  let clusterKeys = null;
+  if (!lockedOrder && sortMode === 'cluster') {
+    clusterGroups = new Map();
+    for (let i = S.length - 1; i >= 0; i--) {
+      const s = S[i];
+      const lane = cardsIn(s.id);
+      if (i === S.length - 1) {
+        lane.sort((a, b) => (a.y ?? 0) - (b.y ?? 0));
+        setOrder(s.id, lane);
+        continue;
+      }
+      const key = new Map();
+      for (const c of lane) {
+        const ts = board.edges.filter((e) => e.from === c.id).map((e) => byId(e.to)).filter(Boolean)
+          .sort((a, b) => (stageIdx(a.stage) - stageIdx(b.stage)) || ((idxIn[a.id] ?? 9e3) - (idxIn[b.id] ?? 9e3)));
+        const t = ts[0];
+        key.set(c.id, { k: t ? stageIdx(t.stage) * 1e4 + (idxIn[t.id] ?? 9e3) : 1e9, g: t ? t.id : '' });
+      }
+      // active suggestions act as provisional ties: pull each suggested comment
+      // to sit right below its candidate's real group so the green line is short
+      if (s.id === seedSid && suggestions) {
+        for (const sg of suggestions) {
+          const kv = key.get(sg.from);
+          const t = byId(sg.to);
+          if (kv && kv.k === 1e9 && t && idxIn[t.id] != null) {
+            key.set(sg.from, { k: stageIdx(t.stage) * 1e4 + idxIn[t.id] + 0.5, g: '' });
+          }
+        }
+      }
+      const bandOf = (c) => BAND[c.status] || 0;
+      lane.sort((a, b) => key.get(a.id).k - key.get(b.id).k || bandOf(a) - bandOf(b) || (a.y ?? 0) - (b.y ?? 0));
+      setOrder(s.id, lane);
+      for (const [id, v] of key) clusterGroups.set(id, v.g);
+      if (s.id === seedSid) clusterKeys = key;
+    }
+  }
+
+  // deferred sorting: keep the last committed order (new cards append at the end);
+  // a fresh sort only happens after Sort (s) or Cluster (c) clears lockedOrder
+  if (lockedOrder) {
+    for (const s of S) {
+      const cur = orders[s.id] || [];
+      const inLane = new Map(cur.map((c) => [c.id, c]));
+      const kept = (lockedOrder[s.id] || []).map((id) => inLane.get(id)).filter(Boolean);
+      const seen = new Set(kept.map((c) => c.id));
+      setOrder(s.id, kept.concat(cur.filter((c) => !seen.has(c.id))));
+    }
+  } else if (clusterKeys) {
+    lockedGapKeys = new Map(cs.map((c) => [c.id, clusterKeys.get(c.id)?.g ?? '']));
+  } else {
+    clusterGroups = null;
+    lockedGapKeys = new Map(cs.map((c) => [c.id, freshKey(c)]));
+  }
+  lockedOrder = Object.fromEntries(S.map((s) => [s.id, (orders[s.id] || []).map((c) => c.id)]));
+  const gapKey = (c) => (lockedGapKeys && lockedGapKeys.get(c.id)) ?? freshKey(c);
+  return { orders, gapsFor: (sid) => {
+    if (sortMode === 'cluster' && clusterGroups) return (c) => clusterGroups.get(c.id) || '';
+    return sid === seedSid ? gapKey : null;
+  } };
+}
+function layoutBoard() {
+  const { orders, gapsFor } = laneOrders();
+  const seedSid = board.stages[0].id;
+  const GG = sortMode === 'cluster' && clusterGroups ? 34 : 14; // inter-group gap
+
+  // content heights of the single-column (non-seed) lanes
+  const laneH = {};
+  for (const s of board.stages) {
+    if (s.id === seedSid) continue;
+    const lgk = gapsFor(s.id);
+    let h = 0, lk = null;
+    for (const c of orders[s.id] || []) {
+      const el = cardDom(c.id); if (!el || el.classList.contains('hidden')) continue;
+      if (lgk) { const k = lgk(c); if (lk !== null && k !== lk) h += GG; lk = k; }
+      h += el.offsetHeight + GAPY;
+    }
+    laneH[s.id] = Math.max(0, h - GAPY);
+  }
+  const otherMax = Math.max(400, ...Object.values(laneH));
+
+  // flow comments into balanced sub-columns aiming for ~otherMax height
+  const gk = gapsFor(seedSid);
+  const seedCards = (orders[seedSid] || []).filter((c) => {
+    const el = cardDom(c.id);
+    return el && !el.classList.contains('hidden');
+  });
+  let total = 0, lastKey = null;
+  for (const c of seedCards) {
+    if (gk) { const k = gk(c); if (lastKey !== null && k !== lastKey) total += GG; lastKey = k; }
+    total += cardDom(c.id).offsetHeight + GAPY;
+  }
+  seedCols = sortMode === 'cluster' && clusterGroups
+    ? 1 // cluster view: one column, so each group frame is a single unbroken block
+    : Math.max(1, Math.min(6, Math.ceil(total / Math.max(otherMax, 500))));
+  const target = total / seedCols;
+  const colOf = new Map(); const colH = [0];
+  let col = 0, cur = 0;
+  lastKey = null;
+  for (const c of seedCards) {
+    const el = cardDom(c.id);
+    let gap = 0;
+    if (gk) { const k = gk(c); if (lastKey !== null && k !== lastKey) gap = GG; lastKey = k; }
+    const step = gap + el.offsetHeight + GAPY;
+    if (col < seedCols - 1 && cur > 0 && cur + step / 2 > target) { col++; cur = 0; gap = 0; colH[col] = 0; }
+    colOf.set(c.id, col);
+    cur += gap + el.offsetHeight + GAPY;
+    colH[col] = cur - GAPY;
+  }
+  const seedH = Math.max(0, ...colH);
+  const maxH = Math.max(140, seedH, otherMax);
+  const M = 70 + maxH / 2;
+
+  // cluster mode: track each group's vertical span so its target card can center on it
+  const placedMid = new Map(); // card id → placed vertical midpoint (for upstream pull)
+  const spans = sortMode === 'cluster' && clusterGroups ? new Map() : null;
+  const bump = (c, el, y) => {
+    if (!spans) return;
+    const g = clusterGroups.get(c.id);
+    if (!g) return;
+    const s0 = spans.get(g) || { top: Infinity, bot: -Infinity };
+    s0.top = Math.min(s0.top, y);
+    s0.bot = Math.max(s0.bot, y + el.offsetHeight);
+    spans.set(g, s0);
+  };
+
+  // place comments: sub-columns, top-aligned within the centered block
+  const colCursor = colH.map(() => M - seedH / 2);
+  lastKey = null;
+  let prevCol = -1;
+  for (const c of seedCards) {
+    const el = cardDom(c.id);
+    const ci = colOf.get(c.id);
+    if (gk) { const k = gk(c); if (lastKey !== null && k !== lastKey && ci === prevCol) colCursor[ci] += GG; lastKey = k; prevCol = ci; }
+    const x = LANE_X0 + ci * (LANE_W + COLGAP);
+    el.style.left = x + 'px';
+    if (c.y !== colCursor[ci]) { c.y = colCursor[ci]; dirty = true; }
+    el.style.top = colCursor[ci] + 'px';
+    bump(c, el, colCursor[ci]);
+    placedMid.set(c.id, colCursor[ci] + el.offsetHeight / 2);
+    colCursor[ci] += el.offsetHeight + GAPY;
+  }
+
+  // place the other lanes: centered stacks normally; in cluster mode each card
+  // pulls down to the vertical middle of its children's span (order-preserving).
+  // Lanes ≥2 (prompts) additionally pull to the midpoint of their connected
+  // previous-lane cards in EVERY mode, so a prompt sits beside its themes.
+  for (const s of board.stages) {
+    if (s.id === seedSid) continue;
+    const si = stageIdx(s.id);
+    const x = laneX(si);
+    const prevSid = si >= 2 ? board.stages[si - 1].id : null;
+    const lgk = gapsFor(s.id);
+    let cur2 = (spans || prevSid) ? M - maxH / 2 : M - laneH[s.id] / 2, lk2 = null;
+    for (const c of orders[s.id] || []) {
+      const el = cardDom(c.id); if (!el || el.classList.contains('hidden')) continue;
+      if (lgk) { const k = lgk(c); if (lk2 !== null && k !== lk2) cur2 += GG; lk2 = k; }
+      if (spans) {
+        const sp = spans.get(c.id);
+        if (sp && sp.top < Infinity) cur2 = Math.max(cur2, (sp.top + sp.bot) / 2 - el.offsetHeight / 2);
+      }
+      if (prevSid) {
+        const ups = board.edges.filter((e) => e.to === c.id).map((e) => byId(e.from))
+          .filter((u) => u && u.stage === prevSid && placedMid.has(u.id));
+        if (ups.length) {
+          const mid = ups.reduce((sum, u) => sum + placedMid.get(u.id), 0) / ups.length;
+          cur2 = Math.max(cur2, mid - el.offsetHeight / 2);
+        }
+      }
+      el.style.left = x + 'px';
+      if (c.y !== cur2) { c.y = cur2; dirty = true; }
+      el.style.top = cur2 + 'px';
+      bump(c, el, cur2);
+      placedMid.set(c.id, cur2 + el.offsetHeight / 2);
+      cur2 += el.offsetHeight + GAPY;
+    }
+  }
+  return { M, maxH };
+}
+
+/* cluster mode: draw a labeled frame behind each run of same-group cards */
+function renderGroupBoxes() {
+  const world = $('world');
+  world.querySelectorAll('.groupbox').forEach((n) => n.remove());
+  if (sortMode !== 'cluster' || !clusterGroups) return;
+  const cols = new Map(); // `${stage}|${left}` → cards in that visual column
+  for (const c of board.cards) {
+    const el = cardDom(c.id);
+    if (!el || el.classList.contains('hidden')) continue;
+    const key = c.stage + '|' + el.offsetLeft;
+    if (!cols.has(key)) cols.set(key, []);
+    cols.get(key).push({ el, c });
+  }
+  const firstCard = world.querySelector('.card');
+  for (const arr of cols.values()) {
+    arr.sort((a, b) => a.el.offsetTop - b.el.offsetTop);
+    let run = [], g = '';
+    const flush = () => {
+      if (run.length && g) {
+        const top = run[0].el.offsetTop;
+        const last = run[run.length - 1].el;
+        const box = document.createElement('div');
+        box.className = 'groupbox';
+        box.style.left = (run[0].el.offsetLeft - 8) + 'px';
+        box.style.width = (LANE_W + 16) + 'px';
+        box.style.top = (top - 21) + 'px';
+        box.style.height = (last.offsetTop + last.offsetHeight - top + 27) + 'px';
+        const t = byId(g);
+        box.innerHTML = '<div class="gl"></div>';
+        box.querySelector('.gl').textContent = '→ ' + (t ? t.title : '?');
+        world.insertBefore(box, firstCard);
+      }
+      run = [];
+    };
+    for (const item of arr) {
+      const ig = clusterGroups.get(item.c.id) || '';
+      if (ig !== g) { flush(); g = ig; }
+      run.push(item);
+    }
+    flush();
+  }
+}
+function flipAnimate(oldTops) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const movers = [];
+  for (const c of board.cards) {
+    const el = cardDom(c.id); if (!el || el.classList.contains('hidden')) continue;
+    const o = oldTops.get(c.id);
+    if (o == null) continue;
+    const dx = (o.x ?? el.offsetLeft) - el.offsetLeft, dy = (o.y ?? o) - el.offsetTop;
+    if (Math.abs(dx) + Math.abs(dy) < 2) continue;
+    movers.push({ el, dx, dy, dist: Math.hypot(dx, dy) });
+  }
+  if (!movers.length) return;
+  // FLIP: park every mover at its old position with transitions off…
+  for (const m of movers) {
+    m.el.style.transition = 'none';
+    m.el.style.transform = `translate(${m.dx}px, ${m.dy}px)`;
+  }
+  void document.body.offsetWidth; // force a style flush so the parked positions actually paint
+  // …then release them, biggest travellers first, with a light stagger
+  movers.sort((a, b) => b.dist - a.dist);
+  movers.forEach((m, i) => {
+    const delay = Math.min(i * 9, 260);
+    m.el.style.transition = `transform .55s cubic-bezier(.22,.9,.26,1) ${delay}ms`;
+    m.el.style.transform = '';
+    m.el.addEventListener('transitionend', () => { m.el.style.transition = ''; }, { once: true });
+  });
+  // edges can't track mid-flight cards — dim them for the ride, fade back at the end
+  const svg = $('edgesvg');
+  svg.classList.add('moving');
+  clearTimeout(flipAnimate._t);
+  flipAnimate._t = setTimeout(() => svg.classList.remove('moving'), 260 + 620);
+}
+
+/* ---------------- rendering ---------------- */
+function cardEl(c) {
+  const el = document.createElement('div');
+  el.className = 'card' + (isSeed(c) ? '' : ' editable');
+  if (c.author) el.style.setProperty('--a-color', authorVar(c.author));
+  el.dataset.id = c.id;
+  if (chipHidden(c)) el.classList.add('hidden');
+  if (c.done) el.classList.add('done');
+  if (sel.has(c.id)) el.classList.add('selected');
+  if (c.status) el.classList.add('st-' + c.status);
+  if (isSeed(c) && board.edges.some((e) => e.from === c.id)) el.classList.add('linked');
+
+  const meta = document.createElement('div'); meta.className = 'meta';
+  if (isSeed(c)) {
+    el.classList.add('seed');
+    meta.innerHTML = `<span class="cid">${c.id}</span><span class="aname">${c.author || ''}</span>` +
+      (c.kind ? `<span class="kind">${c.kind}</span>` : '');
+    if (c.status) {
+      const st = document.createElement('span');
+      st.className = 'stchip'; st.style.background = STATUS[c.status].css;
+      st.textContent = STATUS[c.status].label;
+      meta.appendChild(st);
+    }
+    const bar = document.createElement('div'); bar.className = 'tagbar';
+    for (const [k, v] of Object.entries(STATUS)) {
+      const b = document.createElement('button');
+      b.style.background = v.css;
+      b.textContent = k === 'perf' ? 'Perf' : v.label;
+      b.title = `${v.label} — ${v.desc}${c.status === k ? ' (click again to clear)' : ''}`;
+      if (c.status === k) b.classList.add('active');
+      b.addEventListener('pointerdown', (e) => e.stopPropagation());
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const targets = sel.has(c.id) ? [...sel].filter((x) => isSeed(byId(x))) : [c.id];
+        setStatus(targets, c.status === k ? null : k);
+      });
+      bar.appendChild(b);
+    }
+    el.appendChild(bar);
+  } else {
+    if (board.stages[stageIdx(c.stage)].center) {
+      const rb = document.createElement('span');
+      rb.className = 'rankb'; rb.textContent = 'P' + (c.rank || '?');
+      rb.title = 'Priority rank — arrows or vertical drag to reorder';
+      meta.appendChild(rb);
+      for (const [sym, d] of [['▲', -1], ['▼', 1]]) {
+        const b = document.createElement('button');
+        b.className = 'rk'; b.textContent = sym;
+        b.title = d < 0 ? 'Raise priority' : 'Lower priority';
+        b.addEventListener('pointerdown', (e) => e.stopPropagation());
+        b.addEventListener('click', (e) => { e.stopPropagation(); bumpRank(c.id, d); });
+        meta.appendChild(b);
+      }
+      const fl = document.createElement('button');
+      fl.className = 'flagbtn' + (c.done ? ' on' : '');
+      fl.textContent = '⚑';
+      fl.title = c.done ? 'Shipped & verified — click to reopen' : 'Green-flag: tested and passing (hides the card)';
+      fl.addEventListener('pointerdown', (e) => e.stopPropagation());
+      fl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        snapshot();
+        if (c.done) delete c.done; else c.done = true;
+        touch(); render();
+      });
+      meta.appendChild(fl);
+    }
+    const inn = board.edges.filter((e) => e.to === c.id).length;
+    if (inn) {
+      const sp = document.createElement('span');
+      sp.className = 'inn'; sp.textContent = `⇤ ${inn} linked`;
+      meta.appendChild(sp);
+    }
+    const ORIGINS = ['raw', 'para', 'ai'];
+    const ONAMES = { raw:'Raw (your words)', para:'Paraphrase', ai:'AI-written' };
+    const ob = document.createElement('button');
+    const cur = c.origin || 'raw';
+    ob.className = 'obtn o-' + cur;
+    ob.title = `Text origin: ${ONAMES[cur]} — click to cycle`;
+    ob.style.marginLeft = inn ? '6px' : 'auto';
+    ob.addEventListener('pointerdown', (e) => e.stopPropagation());
+    ob.addEventListener('click', (e) => {
+      e.stopPropagation();
+      snapshot();
+      const nxt = ORIGINS[(ORIGINS.indexOf(cur) + 1) % 3];
+      if (nxt === 'raw') delete c.origin; else c.origin = nxt;
+      touch(); render();
+    });
+    meta.appendChild(ob);
+  }
+  el.appendChild(meta);
+
+  const title = document.createElement('div'); title.className = 'title';
+  if (c.origin === 'para') { title.classList.add('o-para'); title.title = 'Paraphrased from the source call report'; }
+  if (c.origin === 'ai') { title.classList.add('o-ai'); title.title = 'AI-written'; }
+  title.textContent = c.title; el.appendChild(title);
+
+  if (!isSeed(c)) {
+    if (c.notes) {
+      const ta = document.createElement('textarea'); ta.className = 'notes'; ta.value = c.notes;
+      if (c.origin === 'para') ta.classList.add('o-para');
+      if (c.origin === 'ai') ta.classList.add('o-ai');
+      ta.addEventListener('focus', snapshot);
+      ta.addEventListener('input', () => { c.notes = ta.value; touch(); });
+      ta.addEventListener('pointerdown', (e) => e.stopPropagation());
+      el.appendChild(ta);
+    }
+    // FOLLOW-UPS (prompt cards): numbered refinements on an already-delivered
+    // prompt. Adding one REOPENS a ⚑-shipped card; the next Execute Sprint
+    // re-queues it with the follow-ups + prior-report pointer in the bundle.
+    const isCenter = board.stages[stageIdx(c.stage)].center;
+    if (isCenter && Array.isArray(c.followUps)) {
+      c.followUps.forEach((fu, fi) => {
+        const wrap = document.createElement('div'); wrap.className = 'fu';
+        const lab = document.createElement('div'); lab.className = 'fulabel';
+        lab.textContent = `↻ FOLLOW-UP ${fi + 1}`;
+        const fx = document.createElement('button'); fx.className = 'fux'; fx.textContent = '✕';
+        fx.title = 'Remove this follow-up';
+        fx.addEventListener('pointerdown', (e) => e.stopPropagation());
+        fx.addEventListener('click', (e) => {
+          e.stopPropagation(); snapshot();
+          c.followUps.splice(fi, 1);
+          if (!c.followUps.length) delete c.followUps;
+          touch(); render();
+        });
+        lab.appendChild(fx);
+        const ta = document.createElement('textarea'); ta.className = 'notes futext'; ta.value = fu.text || '';
+        ta.placeholder = 'Clarify or request further edits…';
+        ta.addEventListener('focus', snapshot);
+        ta.addEventListener('input', () => { fu.text = ta.value; touch(); });
+        ta.addEventListener('pointerdown', (e) => e.stopPropagation());
+        wrap.appendChild(lab); wrap.appendChild(ta); el.appendChild(wrap);
+      });
+    }
+    const foot = document.createElement('div'); foot.className = 'foot';
+    const nb = document.createElement('button');
+    nb.textContent = c.notes ? '– notes' : '＋ notes';
+    nb.addEventListener('pointerdown', (e) => e.stopPropagation());
+    nb.addEventListener('click', (e) => {
+      e.stopPropagation();
+      snapshot();
+      if (c.notes) { c.notes = ''; } else { c.notes = ' '; }
+      touch(); render();
+      if (c.notes) { const t = cardDom(c.id)?.querySelector('.notes'); if (t) { t.value = ''; c.notes = ''; t.focus(); } }
+    });
+    foot.appendChild(nb);
+    if (isCenter) {
+      const fb = document.createElement('button');
+      fb.textContent = '↻ follow-up';
+      fb.title = 'Add a refinement — reopens the card; next Execute sends it back to an agent with prior-delivery context';
+      fb.addEventListener('pointerdown', (e) => e.stopPropagation());
+      fb.addEventListener('click', (e) => {
+        e.stopPropagation(); snapshot();
+        if (!Array.isArray(c.followUps)) c.followUps = [];
+        c.followUps.push({ text: '' });
+        if (c.done) delete c.done; // a follow-up reopens shipped work
+        touch(); render();
+        cardDom(c.id)?.querySelector('.fu:last-of-type textarea')?.focus();
+      });
+      foot.appendChild(fb);
+    }
+    el.appendChild(foot);
+
+    title.addEventListener('dblclick', () => startTitleEdit(c.id));
+  }
+
+  const del = document.createElement('button'); del.className = 'del'; del.textContent = '✕';
+  del.title = isSeed(c) ? 'Delete this comment' : 'Delete card';
+  del.addEventListener('pointerdown', (e) => e.stopPropagation());
+  del.addEventListener('click', (e) => { e.stopPropagation(); delCard(c.id); });
+  el.appendChild(del);
+
+  if (stageIdx(c.stage) < board.stages.length - 1) {
+    const port = document.createElement('div'); port.className = 'port'; port.title = 'Drag to connect →';
+    port.addEventListener('pointerdown', (e) => startConnect(e, c.id));
+    el.appendChild(port);
+  }
+
+  el.addEventListener('pointerdown', (e) => startCardPointer(e, c.id));
+  return el;
+}
+const cardDom = (id) => $('world').querySelector(`.card[data-id="${CSS.escape(id)}"]`);
+
+function render() {
+  normalizeRanks();
+  const world = $('world');
+  const oldTops = new Map();
+  world.querySelectorAll('.card').forEach((n) => { oldTops.set(n.dataset.id, { x: n.offsetLeft, y: n.offsetTop }); n.remove(); });
+  const frag = document.createDocumentFragment();
+  for (const c of board.cards) frag.appendChild(cardEl(c));
+  world.appendChild(frag);
+
+  const { M, maxH } = layoutBoard();
+  renderLanes(M, maxH);
+  renderGroupBoxes();
+  const svg = $('edgesvg');
+  svg.setAttribute('width', worldW());
+  svg.setAttribute('height', M + maxH / 2 + 120);
+  flipAnimate(oldTops);
+  if (dirty) touch();
+
+  applyFilters();
+  drawEdges();
+  renderHeader();
+  positionEdgeDel();
+}
+
+function anchors(id) {
+  const el = cardDom(id); if (!el || el.classList.contains('hidden')) return null;
+  const i = stageIdx(byId(id).stage);
+  return {
+    out: { x: el.offsetLeft + el.offsetWidth, y: el.offsetTop + el.offsetHeight / 2 },
+    inn: { x: el.offsetLeft, y: el.offsetTop + el.offsetHeight / 2 },
+  };
+}
+function edgePath(a, b) {
+  const dx = Math.min(160, Math.max(45, (b.x - a.x) / 2));
+  return `M ${a.x} ${a.y} C ${a.x + dx} ${a.y}, ${b.x - dx} ${b.y}, ${b.x} ${b.y}`;
+}
+function drawEdges() {
+  const svg = $('edgesvg');
+  svg.querySelectorAll('g.edge, g.sugg').forEach((n) => n.remove());
+  const hlSet = lineage();
+  for (const e of board.edges) {
+    const a = anchors(e.from), b = anchors(e.to);
+    if (!a || !b) continue;
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.classList.add('edge'); g.dataset.id = e.id;
+    if (selEdge === e.id) g.classList.add('sel');
+    else if (hlSet) g.classList.add(hlSet.has(e.from) && hlSet.has(e.to) ? 'hl' : 'faded');
+    const d = edgePath(a.out, b.inn);
+    const vis = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    vis.setAttribute('class', 'vis'); vis.setAttribute('d', d);
+    const hit = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    hit.setAttribute('class', 'hit'); hit.setAttribute('d', d);
+    hit.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); selectEdge(e.id); });
+    g.appendChild(vis); g.appendChild(hit);
+    svg.appendChild(g);
+  }
+  drawSuggestions(svg);
+}
+
+/* ---------------- smart clustering suggestions (double-tap c) ---------------- */
+let suggestions = null; // null = off; array of {id, from, to, armed}
+let cTimer = null;
+const STOPWORDS = new Set(('the a an and or of to in on for is it with be that this i when you my me can ' +
+  'should would like want wants more not no have has are do does at as by so just its was').split(' '));
+const tokensOf = (s) => new Set(String(s).toLowerCase().replace(/[^a-z0-9\s]/g, ' ')
+  .split(/\s+/).filter((w) => w.length > 2 && !STOPWORDS.has(w)));
+function computeSuggestions() {
+  const seedSid = board.stages[0].id, themeSid = board.stages[1] && board.stages[1].id;
+  if (!themeSid) return [];
+  const themes = board.cards.filter((c) => c.stage === themeSid);
+  if (!themes.length) return [];
+  const themeMeta = themes.map((t) => {
+    const title = tokensOf(t.title);
+    const members = new Set();
+    for (const e of board.edges) {
+      if (e.to !== t.id) continue;
+      const m = byId(e.from);
+      if (m) for (const w of tokensOf(m.title)) members.add(w);
+    }
+    return { t, title, members };
+  });
+  const out = [];
+  let sid = 0;
+  for (const c of board.cards) {
+    if (c.stage !== seedSid || chipHidden(c)) continue;
+    if (board.edges.some((e) => e.from === c.id)) continue; // only the unlinked pile
+    const ct = tokensOf(c.title);
+    let best = null, bestScore = 0;
+    for (const tm of themeMeta) {
+      let s = 0;
+      for (const w of ct) {
+        if (tm.title.has(w)) s += 2;
+        else if (tm.members.has(w)) s += 1;
+      }
+      if (s > bestScore) { bestScore = s; best = tm.t; }
+    }
+    if (best && bestScore >= 2) out.push({ id: 'sg' + (sid++), from: c.id, to: best.id, armed: false });
+    if (out.length >= 40) break;
+  }
+  return out;
+}
+function drawSuggestions(svg) {
+  if (!suggestions) return;
+  suggestions = suggestions.filter((s) => !board.edges.some((e) => e.from === s.from && e.to === s.to));
+  for (const s of suggestions) {
+    const a = anchors(s.from), b = anchors(s.to);
+    if (!a || !b) continue;
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.classList.add('sugg'); if (s.armed) g.classList.add('armed');
+    const d = edgePath(a.out, b.inn);
+    const vis = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    vis.setAttribute('class', 'vis'); vis.setAttribute('d', d);
+    const hit = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    hit.setAttribute('class', 'hit'); hit.setAttribute('d', d);
+    const tip = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+    tip.textContent = s.armed ? 'Click again to save this connection' : 'Suggested — click twice to save';
+    hit.appendChild(tip);
+    hit.addEventListener('pointerdown', (ev) => {
+      ev.stopPropagation();
+      if (!s.armed) { s.armed = true; drawEdges(); return; }
+      snapshot();
+      addEdge(s.from, s.to);
+      suggestions = suggestions.filter((x) => x !== s);
+      touch(); render();
+    });
+    g.appendChild(vis); g.appendChild(hit);
+    svg.appendChild(g);
+  }
+}
+function toggleSuggestions() {
+  if (suggestions) { suggestions = null; setSave('Suggestions hidden'); drawEdges(); return; }
+  suggestions = computeSuggestions();
+  setSave(suggestions.length ? `${suggestions.length} suggested link${suggestions.length === 1 ? '' : 's'} — click twice to save` : 'No suggestions found');
+  if (suggestions.length) {
+    // re-cluster with the suggestions as provisional ties → short green lines
+    sortMode = 'cluster'; lockedOrder = null; lockedGapKeys = null;
+    render();
+  } else drawEdges();
+}
+function lineage() {
+  if (sel.size !== 1) return null;
+  const [start] = sel;
+  const seen = new Set([start]);
+  const walk = (id, dir) => {
+    for (const e of board.edges) {
+      const nxt = dir === 'up' ? (e.to === id ? e.from : null) : (e.from === id ? e.to : null);
+      if (nxt && !seen.has(nxt)) { seen.add(nxt); walk(nxt, dir); }
+    }
+  };
+  walk(start, 'up'); walk(start, 'down');
+  return seen;
+}
+/* chip filters HIDE cards entirely (board reflows); search only dims */
+function chipHidden(c) {
+  const st = board.stages[stageIdx(c.stage)];
+  if (st && st.center && c.done && !showDone) return true;
+  if (!isSeed(c)) return false;
+  if (c.author && !authorSeen.has(c.author)) return false; // brand-new author, not yet registered
+  return !authorFilter.has(c.author) || !statusFilter.has(c.status || 'none');
+}
+function applyFilters() {
+  const hl = lineage();
+  const q = query.toLowerCase();
+  for (const c of board.cards) {
+    const el = cardDom(c.id); if (!el) continue;
+    const dim = q && !(c.title.toLowerCase().includes(q) || c.id.toLowerCase() === q);
+    el.classList.toggle('dimmed', !!dim);
+    el.classList.toggle('faded', !dim && !!hl && !hl.has(c.id));
+  }
+}
+function renderHeader() {
+  const comments = board.cards.filter(isSeed);
+  const linked = comments.filter((c) => board.edges.some((e) => e.from === c.id)).length;
+  const tagged = comments.filter((c) => c.status).length;
+  const open = comments.length - comments.filter((c) => c.status || board.edges.some((e) => e.from === c.id)).length;
+  $('tally').textContent = `${comments.length} comments · ${linked} linked · ${tagged} tagged · ${open} untouched`;
+
+  const ac = $('authorChips'); ac.innerHTML = '';
+  const names = [...new Set(comments.map((c) => c.author).filter(Boolean))];
+  for (const name of names) {
+    if (!authorSeen.has(name)) { authorSeen.add(name); authorFilter.add(name); }
+    const n = comments.filter((c) => c.author === name).length;
+    const b = document.createElement('button');
+    b.className = 'chip' + (authorFilter.has(name) ? '' : ' off');
+    b.innerHTML = `<span class="dot" style="background:${authorVar(name)}"></span>${name}<span class="n">${n}</span>`;
+    b.addEventListener('click', () => { authorFilter.has(name) ? authorFilter.delete(name) : authorFilter.add(name); render(); });
+    ac.appendChild(b);
+  }
+  const sc = $('statusChips'); sc.innerHTML = '';
+  const entries = [...Object.entries(STATUS), ['none', {label:'Untagged', css:'var(--line-strong)'}]];
+  for (const [k, v] of entries) {
+    const n = comments.filter((c) => (c.status || 'none') === k).length;
+    const b = document.createElement('button');
+    b.className = 'chip' + (statusFilter.has(k) ? '' : ' off');
+    b.innerHTML = `<span class="dot" style="background:${v.css}"></span>${v.label}<span class="n">${n}</span>`;
+    b.title = v.desc || '';
+    b.addEventListener('click', () => { statusFilter.has(k) ? statusFilter.delete(k) : statusFilter.add(k); render(); });
+    sc.appendChild(b);
+  }
+  const ctr2 = board.stages.find((s) => s.center);
+  const doneN = ctr2 ? board.cards.filter((c) => c.stage === ctr2.id && c.done).length : 0;
+  if (doneN) {
+    const b = document.createElement('button');
+    b.className = 'chip donechip' + (showDone ? '' : ' off');
+    b.title = showDone ? 'Hide shipped prompts' : 'Show shipped prompts';
+    b.innerHTML = `<span class="dot" style="background:var(--o-ai)"></span>⚑ shipped<span class="n">${doneN}</span>`;
+    b.addEventListener('click', () => { showDone = !showDone; render(); });
+    sc.appendChild(b);
+  }
+  $('selhint').innerHTML = sel.size
+    ? `<b>${sel.size} selected</b> — drag a port to fan-in connectors · keys <b>1</b> Basic <b>2</b> Perf <b>3</b> Delight <b>4</b> Indiff <b>5</b> R&amp;D <b>0</b> clear`
+    : '';
+}
+
+/* ---------------- selection ---------------- */
+function clearSel() { sel.clear(); selEdge = null; $('edgedel').classList.remove('open'); render(); }
+function selectEdge(id) { sel.clear(); selEdge = id; render(); positionEdgeDel(); }
+function positionEdgeDel() {
+  const btn = $('edgedel');
+  if (!selEdge) { btn.classList.remove('open'); return; }
+  const e = board.edges.find((x) => x.id === selEdge);
+  if (!e) { btn.classList.remove('open'); return; }
+  const a = anchors(e.from), b = anchors(e.to);
+  if (!a || !b) return;
+  btn.style.left = ((a.out.x + b.inn.x) / 2 - 10) + 'px';
+  btn.style.top = ((a.out.y + b.inn.y) / 2 - 10) + 'px';
+  btn.classList.add('open');
+}
+$('edgedel').addEventListener('click', () => { if (selEdge) delEdge(selEdge); });
+
+/* ---------------- pointer: select / drag / connect ---------------- */
+function toWorld(ev) {
+  const r = $('viewport').getBoundingClientRect();
+  return { x: (ev.clientX - r.left - view.x) / view.z, y: (ev.clientY - r.top - view.y) / view.z };
+}
+function startCardPointer(ev, id) {
+  if (ev.target.closest('.port, .del, .stchip, .tagbar, textarea, button')) return;
+  if (ev.target.closest('.title')?.isContentEditable) return;
+  const c = byId(id); const el = cardDom(id);
+  const si0 = stageIdx(c.stage);
+  const canDrag = !isSeed(c);
+  const start = toWorld(ev); const startY = c.y; const startX = laneX(si0);
+  let mode = 'click';
+  interacting = true;
+  el.setPointerCapture(ev.pointerId);
+  const laneAt = (x) => {
+    const li = laneAtX(x);
+    return li < 0 ? (x < LANE_X0 ? 0 : board.stages.length - 1) : li;
+  };
+  const hotLane = (li) => {
+    const sid = li >= 1 && li !== si0 ? board.stages[li].id : null;
+    $('world').querySelectorAll('.lanebg').forEach((bg) => bg.classList.toggle('hot', bg.dataset.stage === sid));
+  };
+  const move = (e2) => {
+    const p = toWorld(e2);
+    if (mode === 'click' && canDrag && Math.abs(p.y - start.y) + Math.abs(p.x - start.x) > 5) { mode = 'drag'; el.classList.add('dragging'); }
+    if (mode === 'drag') {
+      c.y = Math.max(4, startY + (p.y - start.y));
+      el.style.top = c.y + 'px';
+      el.style.left = (startX + (p.x - start.x)) + 'px';
+      hotLane(laneAt(p.x));
+      drawEdges(); positionEdgeDel();
+      autoScroll(e2);
+    }
+  };
+  const up = (e2) => {
+    el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up);
+    el.classList.remove('dragging'); interacting = false;
+    $('world').querySelectorAll('.lanebg.hot').forEach((bg) => bg.classList.remove('hot'));
+    if (mode === 'click') {
+      selEdge = null; $('edgedel').classList.remove('open');
+      // shift-click: pair every selected earlier-lane card with this one
+      if (ev.shiftKey) {
+        const srcs = [...sel].map(byId).filter((s) => s && stageIdx(s.stage) < stageIdx(c.stage));
+        if (srcs.length) {
+          snapshot();
+          srcs.forEach((s) => addEdge(s.id, c.id));
+          sel.clear(); render();
+          return;
+        }
+      }
+      sel.has(id) ? sel.delete(id) : sel.add(id);
+      render();
+      return;
+    }
+    const li = laneAt(toWorld(e2).x);
+    if (li >= 1 && li !== si0) {
+      snapshot();
+      c.stage = board.stages[li].id;
+      delete c.rank;
+      pruneEdges();
+    } else if (board.stages[si0].center) {
+      snapshot();
+      reRankFromY();
+    }
+    touch(); render();
+  };
+  el.addEventListener('pointermove', move);
+  el.addEventListener('pointerup', up);
+}
+
+let tempPath = null;
+/* magnetic snapping for connector drags: nearest eligible later-lane card within range */
+const SNAP_RADIUS = 110; // world px from card edge
+let snapId = null;
+function findSnapTarget(p, srcStageIdx) {
+  let best = null, bestD = SNAP_RADIUS;
+  for (const c of board.cards) {
+    if (stageIdx(c.stage) <= srcStageIdx) continue;
+    const el = cardDom(c.id);
+    if (!el || el.classList.contains('hidden')) continue;
+    const dx = Math.max(el.offsetLeft - p.x, 0, p.x - (el.offsetLeft + el.offsetWidth));
+    const dy = Math.max(el.offsetTop - p.y, 0, p.y - (el.offsetTop + el.offsetHeight));
+    const d = Math.hypot(dx, dy);
+    if (d < bestD) { bestD = d; best = c; }
+  }
+  return best;
+}
+function setSnap(id) {
+  if (snapId === id) return;
+  if (snapId) cardDom(snapId)?.classList.remove('snaptgt');
+  snapId = id;
+  if (snapId) cardDom(snapId)?.classList.add('snaptgt');
+}
+function startConnect(ev, fromId) {
+  ev.stopPropagation(); ev.preventDefault();
+  interacting = true;
+  const src = byId(fromId);
+  const sources = (sel.has(fromId) ? [...sel] : [fromId]).filter((id) => byId(id).stage === src.stage);
+  const svg = $('edgesvg');
+  tempPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  tempPath.setAttribute('class', 'temp');
+  svg.appendChild(tempPath);
+  const a = anchors(fromId).out;
+  const move = (e2) => {
+    const p = toWorld(e2);
+    const snap = findSnapTarget(p, stageIdx(src.stage));
+    setSnap(snap ? snap.id : null);
+    const end = snap ? anchors(snap.id)?.inn ?? p : p;
+    tempPath.setAttribute('d', edgePath(a, end));
+    autoScroll(e2);
+  };
+  const sx = ev.clientX, sy = ev.clientY;
+  const up = (e2) => {
+    window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up);
+    // plain click on the port (no drag) → sticky connect: next click picks the target
+    if (Math.hypot(e2.clientX - sx, e2.clientY - sy) < 6) {
+      setSave('Click a target card — Esc cancels');
+      const follow = (e3) => {
+        const p3 = toWorld(e3);
+        const snap = findSnapTarget(p3, stageIdx(src.stage));
+        setSnap(snap ? snap.id : null);
+        tempPath.setAttribute('d', edgePath(a, snap ? anchors(snap.id)?.inn ?? p3 : p3));
+        autoScroll(e3);
+      };
+      const finish = (ok) => {
+        window.removeEventListener('pointermove', follow);
+        window.removeEventListener('pointerdown', pick, true);
+        window.removeEventListener('keydown', onKey, true);
+        if (tempPath) { tempPath.remove(); tempPath = null; }
+        setSnap(null);
+        interacting = false;
+        if (ok) { sel.clear(); render(); } else setSave('Saved');
+      };
+      const pick = (e3) => {
+        const cardEl2 = e3.target.closest ? e3.target.closest('.card') : null;
+        let tgt = cardEl2 ? byId(cardEl2.dataset.id) : null;
+        if (!tgt || stageIdx(tgt.stage) <= stageIdx(src.stage)) {
+          tgt = snapId ? byId(snapId) : null; // clicking near a card counts — use the snap
+        }
+        if (tgt && stageIdx(tgt.stage) > stageIdx(src.stage)) {
+          e3.preventDefault(); e3.stopPropagation();
+          snapshot();
+          sources.forEach((s) => addEdge(s, tgt.id));
+          finish(true); return;
+        }
+        finish(false);
+      };
+      const onKey = (e3) => { if (e3.key === 'Escape') { e3.stopPropagation(); finish(false); } };
+      window.addEventListener('pointermove', follow);
+      window.addEventListener('pointerdown', pick, true);
+      window.addEventListener('keydown', onKey, true);
+      return;
+    }
+    tempPath.remove(); tempPath = null; interacting = false;
+    const p = toWorld(e2);
+    const dropSnap = snapId ? byId(snapId) : null;
+    setSnap(null);
+    const targetEl = document.elementsFromPoint(e2.clientX, e2.clientY).find((n) => n.classList?.contains('card'));
+    let tgt = targetEl ? byId(targetEl.dataset.id) : null;
+    if (!tgt || stageIdx(tgt.stage) <= stageIdx(src.stage)) tgt = dropSnap; // snapped target wins over empty space
+    if (tgt && stageIdx(tgt.stage) > stageIdx(src.stage)) {
+      snapshot();
+      sources.forEach((s) => addEdge(s, tgt.id));
+      sel.clear(); render(); return;
+    }
+    // dropped on empty lane → create a card there, connected
+    const li = insideLane(p.x);
+    if (li > stageIdx(src.stage)) {
+      snapshot();
+      const c = addCard(board.stages[li].id, Math.max(4, p.y - 18));
+      sources.forEach((s) => addEdge(s, c.id));
+      sel.clear(); render(); startTitleEdit(c.id); return;
+    }
+    render();
+  };
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up);
+}
+function autoScroll(ev) {
+  const r = $('viewport').getBoundingClientRect(); const m = 36, s = 14;
+  let ch = false;
+  if (ev.clientX > r.right - m) { view.x -= s; ch = true; }
+  else if (ev.clientX < r.left + m) { view.x += s; ch = true; }
+  if (ev.clientY > r.bottom - m) { view.y -= s; ch = true; }
+  else if (ev.clientY < r.top + m) { view.y += s; ch = true; }
+  if (ch) applyView();
+}
+
+/* double-click empty lane space → new card */
+$('viewport').addEventListener('dblclick', (ev) => {
+  if (ev.target.closest('.card')) return;
+  const p = toWorld(ev);
+  const li = insideLane(p.x);
+  if (li <= 0) return;
+  const c = addCard(board.stages[li].id, Math.max(4, p.y - 18));
+  render(); startTitleEdit(c.id);
+});
+
+/* ---------------- title editing ---------------- */
+function startTitleEdit(id) {
+  const el = cardDom(id); if (!el) return;
+  const t = el.querySelector('.title');
+  t.contentEditable = 'true'; t.focus();
+  document.getSelection().selectAllChildren(t);
+  const commit = () => {
+    t.contentEditable = 'false';
+    const c = byId(id);
+    const nv = t.textContent.trim() || c.title;
+    if (nv !== c.title) { snapshot(); c.title = nv; }
+    touch(); render();
+  };
+  t.addEventListener('blur', commit, { once: true });
+  t.addEventListener('keydown', function kd(e) {
+    if (e.key === 'Enter') { e.preventDefault(); t.blur(); }
+    if (e.key === 'Escape') { t.textContent = byId(id).title; t.blur(); }
+    e.stopPropagation();
+  });
+}
+
+/* ---------------- cross-lane moves ---------------- */
+function pruneEdges() {
+  board.edges = board.edges.filter((e) => {
+    const a = byId(e.from), b = byId(e.to);
+    return a && b && stageIdx(a.stage) < stageIdx(b.stage);
+  });
+  if (selEdge && !board.edges.some((e) => e.id === selEdge)) selEdge = null;
+}
+
+/* ---------------- keyboard ---------------- */
+document.addEventListener('keydown', (e) => {
+  if (e.target.closest('input, textarea, [contenteditable="true"]')) return;
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') {
+    e.preventDefault();
+    if (e.shiftKey) redo(); else undo();
+    return;
+  }
+  if (e.key === 's' && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); doReorder('sort'); return; }
+  if (e.key === 'c' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    e.preventDefault();
+    // single c = cluster sort (after a beat); double-tap cc = toggle smart suggestions
+    if (cTimer) { clearTimeout(cTimer); cTimer = null; toggleSuggestions(); }
+    else cTimer = setTimeout(() => { cTimer = null; doReorder('cluster'); }, 320);
+    return;
+  }
+  if (e.key === 'Escape') { $('overlay').classList.remove('open'); $('upOverlay').classList.remove('open'); clearSel(); }
+  if ((e.key === 'Delete' || e.key === 'Backspace') && selEdge) { e.preventDefault(); delEdge(selEdge); }
+  const stKeys = { '1':'basic', '2':'perf', '3':'delight', '4':'indiff', '5':'rnd', '0':null };
+  if (e.key in stKeys && sel.size) {
+    const targets = [...sel].filter((id) => isSeed(byId(id)));
+    if (targets.length) { setStatus(targets, stKeys[e.key]); }
+  }
+});
+
+/* ---------------- toolbar ---------------- */
+$('search').addEventListener('input', (e) => { query = e.target.value; applyFilters(); });
+$('fitBtn').addEventListener('click', fitView);
+$('sortBtn').addEventListener('click', () => doReorder('sort'));
+$('clusterBtn').addEventListener('click', () => doReorder('cluster'));
+$('exportBtn').addEventListener('click', async () => {
+  try { $('exportText').value = await (await fetch('/api/markdown')).text(); }
+  catch (e) { $('exportText').value = JSON.stringify(board, null, 2); }
+  $('copyNote').textContent = '';
+  $('overlay').classList.add('open');
+});
+$('modalClose').addEventListener('click', () => $('overlay').classList.remove('open'));
+$('overlay').addEventListener('click', (e) => { if (e.target === $('overlay')) $('overlay').classList.remove('open'); });
+$('copyBtn').addEventListener('click', async () => {
+  const t = $('exportText');
+  try { await navigator.clipboard.writeText(t.value); $('copyNote').textContent = 'Copied.'; }
+  catch (e) { t.select(); document.execCommand('copy'); $('copyNote').textContent = 'Copied (fallback).'; }
+});
+
+/* ---------------- upload / ingest ---------------- */
+let upFile = null; // {name, base64, isText}
+let inboxPending = 0;
+async function refreshInbox() {
+  try {
+    const j = await (await fetch('/api/inbox')).json();
+    inboxPending = j.pending.length;
+    $('uploadBtn').textContent = inboxPending ? `Upload · ${inboxPending} pending` : 'Upload';
+    const il = $('inboxList'); il.innerHTML = '';
+    if (j.pending.length) {
+      const h = document.createElement('div');
+      h.innerHTML = '<b>Inbox — waiting for Claude to extract:</b>';
+      il.appendChild(h);
+      for (const f of j.pending) {
+        const r = document.createElement('div');
+        r.textContent = `• ${f.name} (${(f.size / 1024).toFixed(f.size > 1e6 ? 0 : 1)} KB)`;
+        il.appendChild(r);
+      }
+    }
+  } catch (e) {}
+}
+function splitPoints(text) {
+  let lines = text.split(/\r?\n/)
+    .map((l) => l.replace(/^\s*(?:[-*•·◦▪‣]|\d+[.)])\s*/, '').replace(/^#+\s*/, '').trim())
+    .filter(Boolean);
+  if (lines.length < 3 && text.trim().length > 240) {
+    lines = text.trim().split(/(?<=[.!?])\s+(?=[A-Z"“])/).map((s) => s.trim()).filter(Boolean);
+  }
+  return lines;
+}
+async function fileToB64(f) {
+  const buf = new Uint8Array(await f.arrayBuffer());
+  let s = '';
+  for (let i = 0; i < buf.length; i += 0x8000) s += String.fromCharCode.apply(null, buf.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+const isTextFile = (f) => /\.(txt|md|markdown|csv|json|srt|vtt|log)$/i.test(f.name) || (f.type || '').startsWith('text/');
+async function handleFile(f) {
+  upFile = { name: f.name, base64: await fileToB64(f), isText: isTextFile(f) };
+  if (upFile.isText) {
+    $('upText').value = await f.text();
+    $('upNote').textContent = `${f.name} loaded — split into points, or send to inbox.`;
+  } else {
+    $('upText').value = '';
+    $('upNote').textContent = `${f.name}: audio/binary — send to inbox and ask Claude to transcribe & extract.`;
+  }
+  resetPtList();
+}
+function resetPtList() {
+  const pl = $('ptList'); pl.hidden = true; pl.innerHTML = '';
+  $('extractBtn').textContent = 'Split into points';
+}
+function addSeedComments(author, texts) {
+  snapshot();
+  const seeds = board.cards.filter(isSeed);
+  const prefOf = new Map();
+  for (const c of seeds) {
+    const m = /^([A-Za-z]+?)(\d+)$/.exec(c.id);
+    if (m && !prefOf.has(c.author)) prefOf.set(c.author, m[1]);
+  }
+  let prefix = prefOf.get(author);
+  if (!prefix) {
+    const taken = new Set([...prefOf.entries()].filter(([a]) => a !== author).map(([, p]) => p));
+    const clean = author.replace(/[^A-Za-z]/g, '') || 'X';
+    for (let len = 1; len <= clean.length && !prefix; len++) {
+      const cand = clean.charAt(0).toUpperCase() + clean.slice(1, len);
+      if (!taken.has(cand)) prefix = cand;
+    }
+    if (!prefix) prefix = clean + 'X';
+  }
+  let n = 0;
+  const re = new RegExp('^' + prefix + '(\\d+)$');
+  for (const c of seeds) { const m = re.exec(c.id); if (m) n = Math.max(n, +m[1]); }
+  for (const t of texts) board.cards.push({ id: prefix + (++n), stage: seedStage(), author, title: t });
+  touch(); render();
+}
+async function uploadToServer(name, base64, processed) {
+  const r = await fetch('/api/upload', { method: 'POST', body: JSON.stringify({ name, base64, processed: !!processed }) });
+  return r.json();
+}
+const b64FromText = (t) => btoa(unescape(encodeURIComponent(t)));
+const stamp = () => new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
+
+$('uploadBtn').addEventListener('click', () => {
+  $('upOverlay').classList.add('open');
+  const dl = $('authorList'); dl.innerHTML = '';
+  [...new Set(board.cards.filter(isSeed).map((c) => c.author).filter(Boolean))]
+    .forEach((a) => { const o = document.createElement('option'); o.value = a; dl.appendChild(o); });
+  refreshInbox();
+  $('upAuthor').focus();
+});
+$('upClose').addEventListener('click', () => $('upOverlay').classList.remove('open'));
+$('upOverlay').addEventListener('click', (e) => { if (e.target === $('upOverlay')) $('upOverlay').classList.remove('open'); });
+const dz = $('dropzone');
+dz.addEventListener('click', () => $('upFile').click());
+$('upFile').addEventListener('change', (e) => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+dz.addEventListener('dragover', (e) => { e.preventDefault(); dz.classList.add('hot'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('hot'));
+dz.addEventListener('drop', (e) => { e.preventDefault(); dz.classList.remove('hot'); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+$('upText').addEventListener('input', resetPtList);
+
+$('extractBtn').addEventListener('click', async () => {
+  const author = $('upAuthor').value.trim();
+  const text = $('upText').value.trim();
+  if (!author) { $('upNote').textContent = 'Name the author first.'; $('upAuthor').focus(); return; }
+  if (!text) { $('upNote').textContent = 'Paste or type some text (or send a file to the inbox).'; return; }
+  const pl = $('ptList');
+  if (pl.hidden) {
+    const pts = splitPoints(text);
+    if (!pts.length) { $('upNote').textContent = 'Nothing to split.'; return; }
+    pl.innerHTML = '';
+    pts.forEach((p) => {
+      const lab = document.createElement('label');
+      const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = true;
+      const sp = document.createElement('span'); sp.textContent = p;
+      lab.appendChild(cb); lab.appendChild(sp); pl.appendChild(lab);
+    });
+    pl.hidden = false;
+    $('extractBtn').textContent = `Add ${pts.length} cards`;
+    $('upNote').textContent = 'Uncheck lines that aren’t real feedback points, then add.';
+    return;
+  }
+  const texts = [...pl.querySelectorAll('label')]
+    .filter((l) => l.querySelector('input').checked)
+    .map((l) => l.querySelector('span').textContent);
+  if (!texts.length) { $('upNote').textContent = 'Nothing checked.'; return; }
+  addSeedComments(author, texts);
+  try {
+    await uploadToServer(upFile ? upFile.name : `paste-${author}-${stamp()}.txt`,
+      upFile ? upFile.base64 : b64FromText(text), true);
+  } catch (e) {}
+  upFile = null; $('upText').value = ''; resetPtList();
+  $('upOverlay').classList.remove('open');
+});
+
+$('toInboxBtn').addEventListener('click', async () => {
+  const text = $('upText').value.trim();
+  const author = $('upAuthor').value.trim();
+  if (!upFile && !text) { $('upNote').textContent = 'Drop a file or paste text first.'; return; }
+  try {
+    const name = upFile ? upFile.name : `paste-${author || 'unknown'}-${stamp()}.txt`;
+    const b64 = upFile ? upFile.base64 : b64FromText((author ? `Author: ${author}\n\n` : '') + text);
+    await uploadToServer(name, b64, false);
+    upFile = null; $('upText').value = ''; resetPtList();
+    $('upNote').textContent = 'Saved to inbox — tell Claude to extract it.';
+    refreshInbox();
+  } catch (e) { $('upNote').textContent = 'Upload failed — is the server running?'; }
+});
+setInterval(refreshInbox, 5000);
+
+/* ---------------- voice prompts: hold Space to dictate ---------------- */
+const promptStage = () => board.stages[board.stages.length - 1];
+let rec = null, recFinal = '', recOn = false;
+let recField = null, recBase = '', recStart = 0, recEnd = 0;
+function fieldInsert(field, text, moveCaret) {
+  field.value = recBase.slice(0, recStart) + text + recBase.slice(recEnd);
+  if (moveCaret !== false) {
+    const p = recStart + text.length;
+    try { field.setSelectionRange(p, p); } catch (err) {}
+  }
+  field.dispatchEvent(new Event('input', { bubbles: true }));
+}
+function startRec(field) {
+  if (recOn || !board) return;
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { setSave('No speech API in this browser', true); return; }
+  recOn = true; recFinal = '';
+  recField = field || null;
+  if (recField) {
+    recBase = recField.value;
+    recStart = recField.selectionStart ?? recBase.length;
+    recEnd = recField.selectionEnd ?? recStart;
+  }
+  rec = new SR();
+  rec.continuous = true; rec.interimResults = true; rec.lang = 'en-US';
+  rec.onresult = (e) => {
+    let f = '', interim = '';
+    for (const r of e.results) { if (r.isFinal) f += r[0].transcript; else interim += r[0].transcript; }
+    recFinal = f;
+    const shown = (f + interim).trim();
+    if (recField) fieldInsert(recField, shown); // live transcription at the caret
+    $('rectext').textContent = shown ? '…' + shown.slice(-60) : 'listening…';
+  };
+  rec.onerror = () => {};
+  $('rectext').textContent = 'listening…';
+  $('recpill').classList.add('on');
+  try { rec.start(); } catch (err) {}
+}
+function stopRec() {
+  if (!recOn) return;
+  recOn = false;
+  $('recpill').classList.remove('on');
+  const r = rec; rec = null;
+  let done = false;
+  const finish = () => { if (done) return; done = true; deliverRec(recFinal.trim()); };
+  r.onend = finish;
+  setTimeout(finish, 1500); // safety if onend never fires
+  try { r.stop(); } catch (err) { finish(); }
+}
+/* voice = typing: finalize into the field being dictated into, else append to the selected card */
+function deliverRec(text) {
+  if (recField) {
+    const f = recField; recField = null;
+    fieldInsert(f, text ? text + ' ' : '');
+    f.focus();
+    return;
+  }
+  if (!text) return;
+  const one = sel.size === 1 ? byId([...sel][0]) : null;
+  if (!one || isSeed(one)) { setSave('Select a card first, then hold Space', true); return; }
+  snapshot();
+  one.notes = (one.notes ? one.notes.trim() + ' ' : '') + text;
+  touch(); render();
+}
+/* push-to-talk: in a text field, a quick tap of Space types a space; holding it dictates live */
+let spaceTimer = null, spaceField = null;
+const dictField = (t) => (t.closest ? t.closest('textarea, input[type="text"], input[type="search"], input:not([type])') : null);
+window.addEventListener('keydown', (e) => {
+  if (e.code !== 'Space') return;
+  if (e.repeat) { if (spaceTimer || recOn) e.preventDefault(); return; }
+  const field = dictField(e.target);
+  if (field) {
+    e.preventDefault();
+    spaceField = field;
+    spaceTimer = setTimeout(() => { spaceTimer = null; startRec(field); }, 250);
+    return;
+  }
+  if (e.target.closest('input, textarea, [contenteditable="true"]')) return;
+  e.preventDefault(); startRec(null);
+});
+window.addEventListener('keyup', (e) => {
+  if (e.code !== 'Space') return;
+  if (spaceTimer) { // released before the hold threshold → it was a normal space
+    clearTimeout(spaceTimer); spaceTimer = null;
+    if (spaceField) {
+      recBase = spaceField.value;
+      recStart = spaceField.selectionStart ?? recBase.length;
+      recEnd = spaceField.selectionEnd ?? recStart;
+      fieldInsert(spaceField, ' ');
+    }
+    spaceField = null;
+    e.preventDefault();
+    return;
+  }
+  spaceField = null;
+  if (!recOn) return;
+  e.preventDefault(); stopRec();
+});
+
+/* ---------------- execute sprint ---------------- */
+$('execBtn').addEventListener('click', async () => {
+  const ps = promptStage();
+  const n = board.cards.filter((c) => c.stage === ps.id &&
+    (((c.notes || '').trim()) || (c.title && c.title !== 'Untitled'))).length;
+  if (!n) { setSave('No prompts to run', true); return; }
+  if (!confirm(`Execute sprint: hand ${n} prompt${n === 1 ? '' : 's'} to implementation agents?`)) return;
+  await saveNow();
+  try {
+    const j = await (await fetch('/api/execute', { method: 'POST' })).json();
+    if (j.queued) setSave(`Sprint queued (${j.queued})`);
+    else setSave(j.error || 'Queue failed', true);
+  } catch (err) { setSave('Server offline', true); }
+});
+
+/* ---------------- live sprint-agent monitor ---------------- */
+async function pollSprint() {
+  let j;
+  try { j = await (await fetch('/api/sprint')).json(); } catch (e) { return; }
+  const box = $('sprintmon');
+  if (!j.queue || !j.agents || !j.agents.length) { box.classList.remove('on'); return; }
+  const doneN = j.agents.filter((a) => a.report).length;
+  const allDone = doneN === j.agents.length;
+  $('smstate').textContent = allDone
+    ? `all ${j.agents.length} done — click a row for the report`
+    : `${doneN}/${j.agents.length} done · ${j.queue.status}`;
+  const rows = $('smrows'); rows.innerHTML = '';
+  for (const a of j.agents) {
+    const row = document.createElement('div');
+    const ageMin = a.lastMs ? (Date.now() - a.lastMs) / 60000 : null;
+    row.className = 'smrow' + (a.report ? ' done' : (ageMin !== null && ageMin > 12 ? ' stale' : ''));
+    const last = a.report ? 'Report ready — click to read' :
+      (a.lines.length ? a.lines[a.lines.length - 1] : 'starting…');
+    const ago = a.report ? '✓' : (ageMin === null ? '' : ageMin < 1 ? 'now' : Math.round(ageMin) + 'm');
+    row.innerHTML = `<div class="t"><span class="dot"></span><span class="ti"></span><span class="ago">${ago}</span></div><div class="last"></div>`;
+    row.querySelector('.ti').textContent = `P${a.rank} · ${a.title}`;
+    row.querySelector('.last').textContent = last;
+    if (a.report) row.addEventListener('click', async () => {
+      try {
+        $('exportText').value = await (await fetch('/api/result?p=' + a.nn)).text();
+        $('copyNote').textContent = '';
+        $('overlay').classList.add('open');
+      } catch (e) {}
+    });
+    rows.appendChild(row);
+  }
+  box.classList.add('on');
+}
+setInterval(pollSprint, 3000);
+
+loadState();
+refreshInbox();
+pollSprint();
+</script>

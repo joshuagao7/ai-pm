@@ -1,0 +1,23 @@
+{
+  "name": "ai-pm",
+  "version": "0.1.0",
+  "description": "A file-backed planning board that turns raw customer feedback into ranked, evidence-carrying build prompts — and hands them to coding agents.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "board": "node board/server.mjs",
+    "init": "node board/server.mjs --init",
+    "regen": "node board/server.mjs --regen"
+  },
+  "keywords": [
+    "product-management",
+    "customer-feedback",
+    "sprint-planning",
+    "kano",
+    "claude-code",
+    "agents"
+  ]
+}

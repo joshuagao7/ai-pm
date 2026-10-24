@@ -1,0 +1,23 @@
+{
+ "version": 1,
+ "sprint": "Sprint 1",
+ "uid": 1,
+ "stages": [
+  {
+   "id": "comments",
+   "title": "Raw comments",
+   "seed": true
+  },
+  {
+   "id": "themes",
+   "title": "Themes"
+  },
+  {
+   "id": "prompts",
+   "title": "Prompts",
+   "center": true
+  }
+ ],
+ "cards": [],
+ "edges": []
+}

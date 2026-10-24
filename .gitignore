@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+
+# Uploaded sources awaiting processing — often audio or customer documents.
+# Sprint text (board.json, BOARD.md, prompts/, results/) IS meant to be committed:
+# the plan living in git next to the code is the point.
+sprints/*/inbox/
