@@ -19,6 +19,8 @@ node board/server.mjs           # open it → http://localhost:4680
 
 No dependencies, no build, no account. Node ≥ 18 (or bun) and a browser.
 
+Picking up the code? [`HANDOFF.md`](HANDOFF.md) maps the architecture and the known gaps.
+
 ---
 
 ## Why this shape

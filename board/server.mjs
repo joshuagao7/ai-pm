@@ -283,13 +283,16 @@ const server = createServer((req, res) => {
       req.on('end', () => {
         try {
           const d = readBoard();
-          const last = d.stages[d.stages.length - 1];
-          const themesSid = d.stages[1] && d.stages[1].id;
+          /* Execute turns the center lane into work; its themes are the lane just upstream. */
+          const ci = d.stages.findIndex((s) => s.center);
+          const pi = ci >= 0 ? ci : d.stages.length - 1;
+          const promptStage = d.stages[pi];
+          const themesSid = d.stages[Math.max(1, pi - 1)] && d.stages[Math.max(1, pi - 1)].id;
           const seedSid = d.stages[0].id;
           const by = Object.fromEntries(d.cards.map((c) => [c.id, c]));
           const upOf = (id) => d.edges.filter((e) => e.to === id).map((e) => e.from);
           const prompts = d.cards
-            .filter((c) => c.stage === last.id && !c.done &&
+            .filter((c) => c.stage === promptStage.id && !c.done &&
               (((c.notes || '').trim()) || (c.title && c.title !== 'Untitled')))
             .sort((a, b) => (a.rank ?? 1e9) - (b.rank ?? 1e9));
           const pdir = join(sprintDir, 'prompts');

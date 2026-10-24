@@ -1805,7 +1805,7 @@ $('toInboxBtn').addEventListener('click', async () => {
 setInterval(refreshInbox, 5000);
 
 /* ---------------- voice prompts: hold Space to dictate ---------------- */
-const promptStage = () => board.stages[board.stages.length - 1];
+const promptStage = () => centerStage() || board.stages[board.stages.length - 1];
 let rec = null, recFinal = '', recOn = false;
 let recField = null, recBase = '', recStart = 0, recEnd = 0;
 function fieldInsert(field, text, moveCaret) {
@@ -1906,7 +1906,7 @@ window.addEventListener('keyup', (e) => {
 /* ---------------- execute sprint ---------------- */
 $('execBtn').addEventListener('click', async () => {
   const ps = promptStage();
-  const n = board.cards.filter((c) => c.stage === ps.id &&
+  const n = board.cards.filter((c) => c.stage === ps.id && !c.done &&
     (((c.notes || '').trim()) || (c.title && c.title !== 'Untitled'))).length;
   if (!n) { setSave('No prompts to run', true); return; }
   if (!confirm(`Execute sprint: hand ${n} prompt${n === 1 ? '' : 's'} to implementation agents?`)) return;
